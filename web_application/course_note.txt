@@ -1,0 +1,24 @@
+
+different of div and span
+	div is block tag, will produce box and break line
+	span is inline tag, will not produce box and keep in line
+
+URL: uniform resource locator
+	http://www.udacity.com/
+	protocol: http
+	the host: www.udacity.com
+	path: /
+port: 
+	By default, it is 80, if your port is larger than 80, you should include the port in url between the host and path
+HTTP: hyper text tansfer protocol
+	begins of request line:
+		Method Path Version
+		GET /foo HTTP/1.1
+	The host name doesn't appear in the request line. That is because we are already connected to the host. The host is used to make the connection, the path is used to make the request.
+Status code:
+	200 OK
+	300 have more work to be done
+	40* have errors on browser side
+	500 have errors on server side
+Web application:
+	The programs that build dynamic responses are called web applications. A web application is just a program that generates content

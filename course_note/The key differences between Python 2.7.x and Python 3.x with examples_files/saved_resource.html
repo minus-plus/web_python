@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<!-- saved from url=(0387)http://disqus.com/embed/comments/?base=default&version=3cb7943b9fb8437dea3d29387e24bac1&f=sebastianraschka&t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&s_o=default -->
+<html lang="en" dir="ltr" class="js touch no-localstorage no-sessionstorage contenteditable use-opacity-transitions"><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Disqus Comments</title>
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    
+    
+    <style>
+        html {
+            overflow: hidden;
+        }
+
+        
+    </style>
+
+<link rel="stylesheet" href="./lounge.f668c82e65f78693a6a62a5c7d3e54b8.css"><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="remote/config" src="./config.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="common.bundle" src="./common.bundle.6cf4bc00dbe4a1b2255499bc7bc57373.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="lounge.bundle" src="./lounge.bundle.fe2b2c667f5c2639e3afea2d56bab4c9.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="ga" src="./ga(1).js"></script><style id="css_1461297520578"></style><!--<base target="_parent">--><base href="." target="_parent"><link rel="stylesheet" href="./discovery.449c10a436c997c3eee5afd5021da3a2.css"><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="discovery/main" src="./discovery.bundle.64ff1dd947a642df4e7351a9f772d125.js"></script></head>
+<body>
+    
+
+    
+    <!--[if lt IE 10]><p style="color: #fff; background-color: #f05f70; padding: 10px; margin-top: 20px;">
+        You're using a browser that Disqus plans to stop supporting soon. For more information, visit our list of 
+        <a href="https://help.disqus.com/customer/portal/articles/466228-which-browsers-does-disqus-work-with-" style="color: #fff; text-decoration: underline;">supported browsers</a>
+        and consider upgrading.
+    </p><![endif]-->
+    <div id="error" style="display:none; text-align: center">
+        <p>We were unable to load Disqus. If you are a moderator please see our <a href="https://docs.disqus.com/help/83/"> troubleshooting guide</a>. </p>
+    </div>
+
+    
+    <script type="text/json" id="disqus-forumData">{"session":{"canModerate":false,"audienceSyncVerified":false,"mustVerify":false,"canReply":true,"mustVerifyEmail":false},"features":{},"forum":{"category":"Tech","description":"\u003cp>Personal Website and Blog about Machine Learning, Data Science, and Python Programming\u003c/p>","founder":"37273806","twitterName":"","url":"http://sebastianraschka.com/","raw_description":"Personal Website and Blog about Machine Learning, Data Science, and Python Programming","guidelines":null,"favicon":{"permalink":"http://disqus.com/api/forums/favicons/sebastianraschka.jpg","cache":"//a.disquscdn.com/uploads/forums/256/4201/favicon.png"},"raw_guidelines":null,"language":"en","daysThreadAlive":0,"avatar":{"small":{"permalink":"http://disqus.com/api/forums/avatars/sebastianraschka.jpg?size=32","cache":"//a.disquscdn.com/1457379538/images/noavatar32.png"},"large":{"permalink":"http://disqus.com/api/forums/avatars/sebastianraschka.jpg?size=92","cache":"//a.disquscdn.com/1457379538/images/noavatar92.png"}},"channel":null,"daysAlive":0,"pk":"2564201","signedUrl":"http://disq.us/?url=http%3A%2F%2Fsebastianraschka.com%2F&key=nQFuKrXD803jmsFLpz3yuA","settings":{"supportLevel":0,"adsDRNativeEnabled":false,"disable3rdPartyTrackers":false,"adsVideoEnabled":false,"adsProductVideoEnabled":false,"adsPositionTopEnabled":false,"ssoRequired":false,"linkAffiliationEnabled":true,"adsProductLinksThumbnailsEnabled":false,"adsProductStoriesEnabled":false,"organicDiscoveryEnabled":true,"allowMedia":true,"discoveryMax":false,"discoveryLocked":false,"moderatorText":"","adsEnabled":false,"allowAnonPost":true,"hasCustomAvatar":false,"adultContent":false,"promotedDiscoveryEnabled":false,"allowAnonVotes":false,"mustVerify":false,"colorScheme":"auto","adsSettingsLocked":false,"mustVerifyEmail":false,"audienceSyncEnabled":false,"typeface":"auto","adsPositionBottomEnabled":false,"mediaembedEnabled":true,"adsProductLinksEnabled":false,"discoveryThumbnailsEnabled":false,"isVIP":false},"id":"sebastianraschka","createdAt":"2013-09-22T12:00:30.549761","name":"SebastianRaschka"}}</script>
+
+    
+    <script type="text/json" id="disqus-threadData">{"cursor":{"hasPrev":false,"prev":null,"total":5,"hasNext":false,"next":"1:0:0"},"code":0,"response":{"lastModified":1459016317,"posts":[{"forum":"sebastianraschka","parent":null,"isApproved":true,"author":{"name":"Jo\u00e3o Matos","url":"","profileUrl":"","emailHash":"","avatar":{"small":{"permalink":"//a.disquscdn.com/1457379538/images/noavatar32.png","cache":"//a.disquscdn.com/1457379538/images/noavatar32.png"},"large":{"permalink":"//a.disquscdn.com/1457379538/images/noavatar92.png","cache":"//a.disquscdn.com/1457379538/images/noavatar92.png"},"permalink":"//a.disquscdn.com/1457379538/images/noavatar92.png","cache":"//a.disquscdn.com/1457379538/images/noavatar92.png"},"signedUrl":"","isAnonymous":true},"media":[],"isDeleted":false,"isFlagged":false,"dislikes":0,"raw_message":"Hello,\n\nYou can also use\n\n\n\nfrom builtins import input\n\n\nto solve the raw_input vs input change.\n\n\nBest regardsm\n\n\nJo\u00e3o Matos","createdAt":"2016-01-21T10:41:26","id":"2469720640","thread":"2725497939","depth":0,"numReports":0,"isDeletedByAuthor":false,"likes":0,"isEdited":false,"message":"\u003cp>Hello,\u003c/p>\u003cp>You can also use\u003c/p>\u003cp>from builtins import input\u003c/p>\u003cp>to solve the raw_input vs input change.\u003c/p>\u003cp>Best regardsm\u003c/p>\u003cp>Jo\u00e3o Matos\u003c/p>","isSpam":false,"isHighlighted":false,"points":0},{"forum":"sebastianraschka","parent":null,"isApproved":true,"author":{"name":"Jo\u00e3o Matos","url":"","profileUrl":"","emailHash":"","avatar":{"small":{"permalink":"//a.disquscdn.com/1457379538/images/noavatar32.png","cache":"//a.disquscdn.com/1457379538/images/noavatar32.png"},"large":{"permalink":"//a.disquscdn.com/1457379538/images/noavatar92.png","cache":"//a.disquscdn.com/1457379538/images/noavatar92.png"},"permalink":"//a.disquscdn.com/1457379538/images/noavatar92.png","cache":"//a.disquscdn.com/1457379538/images/noavatar92.png"},"signedUrl":"","isAnonymous":true},"media":[],"isDeleted":false,"isFlagged":false,"dislikes":0,"raw_message":"Hello,\n\nMay I recommend using\n\n\nfrom builtins import range\nAlso, check out\n\nhttp://python-future.org/reference.html?highlight=range#future.builtins.range\n\nfor more info on Py2 to Py3.\n\nBest regards,\n\nJo\u00e3o Matos","createdAt":"2016-01-21T10:30:51","id":"2469711980","thread":"2725497939","depth":0,"numReports":0,"isDeletedByAuthor":false,"likes":0,"isEdited":false,"message":"\u003cp>Hello,\u003c/p>\u003cp>May I recommend using\u003c/p>\u003cp>from builtins import range\u003cbr>Also, check out\u003c/p>\u003cp>\u003ca href=\"http://python-future.org/reference.html?highlight=range#future.builtins.range\" rel=\"nofollow\">http://python-future.org/refer...\u003c/a>\u003c/p>\u003cp>for more info on Py2 to Py3.\u003c/p>\u003cp>Best regards,\u003c/p>\u003cp>Jo\u00e3o Matos\u003c/p>","isSpam":false,"isHighlighted":false,"points":0},{"forum":"sebastianraschka","parent":null,"isApproved":true,"author":{"name":"Beanman","url":"","profileUrl":"","emailHash":"","avatar":{"small":{"permalink":"//a.disquscdn.com/1457379538/images/noavatar32.png","cache":"//a.disquscdn.com/1457379538/images/noavatar32.png"},"large":{"permalink":"//a.disquscdn.com/1457379538/images/noavatar92.png","cache":"//a.disquscdn.com/1457379538/images/noavatar92.png"},"permalink":"//a.disquscdn.com/1457379538/images/noavatar92.png","cache":"//a.disquscdn.com/1457379538/images/noavatar92.png"},"signedUrl":"","isAnonymous":true},"media":[],"isDeleted":false,"isFlagged":false,"dislikes":0,"raw_message":"2.7 if you want pypy support. 3 if you don't care about less supported libraries.","createdAt":"2016-01-01T00:57:19","id":"2434298909","thread":"2725497939","depth":0,"numReports":0,"isDeletedByAuthor":false,"likes":0,"isEdited":false,"message":"\u003cp>2.7 if you want pypy support. 3 if you don't care about less supported libraries.\u003c/p>","isSpam":false,"isHighlighted":false,"points":0},{"forum":"sebastianraschka","parent":null,"isApproved":true,"author":{"username":"naml3i","about":"Hmmm....?","name":"Nam Le","disable3rdPartyTrackers":false,"isPowerContributor":false,"isAnonymous":false,"rep":1.236748,"profileUrl":"https://disqus.com/by/naml3i/","url":"http://namle.site11.com/","reputation":1.236748,"location":"France","isPrivate":false,"signedUrl":"http://disq.us/?url=http%3A%2F%2Fnamle.site11.com%2F&key=zoGiMz10XccJphY_VR8x1A","isPrimary":true,"joinedAt":"2014-10-08T15:10:02","id":"124910989","avatar":{"small":{"permalink":"http://disqus.com/api/users/avatars/naml3i.jpg","cache":"//a.disquscdn.com/uploads/users/12491/989/avatar32.jpg?1452463472"},"isCustom":true,"permalink":"http://disqus.com/api/users/avatars/naml3i.jpg","cache":"//a.disquscdn.com/uploads/users/12491/989/avatar92.jpg?1452463472","large":{"permalink":"http://disqus.com/api/users/avatars/naml3i.jpg","cache":"//a.disquscdn.com/uploads/users/12491/989/avatar92.jpg?1452463472"}}},"media":[],"isDeleted":false,"isFlagged":false,"dislikes":0,"raw_message":"Hello Sebastian,\n\n\nI'm currently using Python 2.7.6 and I want to stay with Python 2 so not to breaking the current code. Besides, some of the packages are now not fully ported to Python 3 (e.g OpenCV, Numpy, Scipy). So I'm just wonder if I should upgrade from 2.7.6 to 2.7.9? (As a Windows user, I see Python is installed in \"C:\\Python27\", so will installing 2.7.9 break the current settings and packages which I'm having with 2.7.6?\nCheers,\nNam.","createdAt":"2015-01-03T21:12:44","id":"1770462540","thread":"2725497939","depth":0,"numReports":0,"isDeletedByAuthor":false,"likes":0,"isEdited":false,"message":"\u003cp>Hello Sebastian,\u003c/p>\u003cp>I'm currently using Python 2.7.6 and I want to stay with Python 2 so not to breaking the current code. Besides, some of the packages are now not fully ported to Python 3 (e.g OpenCV, Numpy, Scipy). So I'm just wonder if I should upgrade from 2.7.6 to 2.7.9? (As a Windows user, I see Python is installed in \"C:\\Python27\", so will installing 2.7.9 break the current settings and packages which I'm having with 2.7.6?\u003cbr>Cheers,\u003cbr>Nam.\u003c/p>","isSpam":false,"isHighlighted":false,"points":0},{"forum":"sebastianraschka","parent":1770462540,"isApproved":true,"author":{"username":"seraschka","about":"Computational biologist at Michigan State University, software developer, book author. Passionate about gadgets, technology news, Python & C++","name":"Sebastian Raschka","disable3rdPartyTrackers":false,"isPowerContributor":false,"isAnonymous":false,"rep":1.329855,"profileUrl":"https://disqus.com/by/seraschka/","url":"http://www.sebastianraschka.com/","reputation":1.329855,"location":"East Lansing","isPrivate":false,"signedUrl":"http://disq.us/?url=http%3A%2F%2Fwww.sebastianraschka.com%2F&key=jlh092vb-CNtplVxr_fjJw","isPrimary":true,"joinedAt":"2012-11-25T08:16:11","id":"37273806","avatar":{"small":{"permalink":"http://disqus.com/api/users/avatars/seraschka.jpg","cache":"//a.disquscdn.com/uploads/users/3727/3806/avatar32.jpg?1461190476"},"isCustom":true,"permalink":"http://disqus.com/api/users/avatars/seraschka.jpg","cache":"//a.disquscdn.com/uploads/users/3727/3806/avatar92.jpg?1461190476","large":{"permalink":"http://disqus.com/api/users/avatars/seraschka.jpg","cache":"//a.disquscdn.com/uploads/users/3727/3806/avatar92.jpg?1461190476"}}},"media":[],"isDeleted":false,"isFlagged":false,"dislikes":0,"raw_message":"Hi, Nam,\n\nsorry for the late reply. I am not 100% sure about OpenCV, but NumPy and SciPy are fully supported by Python 3.x. \n\nTo your question about the Python 2.7.x upgrade: I would recommend you to install the new Python version as a separate environment. That's how I typically do it: If a new Python version comes around, I typically keep the previous one too for just in case. I don't know anything about Windows, but in general I would also recommend you to check out Anaconda (I see that it is available for the Windows platform too). Anaconda is a distribution for Python that takes away all the challenges with package management and makes it pretty convenient to install new packages, download binaries, and set up new environments (http://www.continuum.io/blog/conda)","createdAt":"2015-01-30T06:50:10","id":"1825083461","thread":"2725497939","depth":1,"numReports":0,"isDeletedByAuthor":false,"likes":0,"isEdited":false,"message":"\u003cp>Hi, Nam,\u003c/p>\u003cp>sorry for the late reply. I am not 100% sure about OpenCV, but NumPy and SciPy are fully supported by Python 3.x.\u003c/p>\u003cp>To your question about the Python 2.7.x upgrade: I would recommend you to install the new Python version as a separate environment. That's how I typically do it: If a new Python version comes around, I typically keep the previous one too for just in case. I don't know anything about Windows, but in general I would also recommend you to check out Anaconda (I see that it is available for the Windows platform too). Anaconda is a distribution for Python that takes away all the challenges with package management and makes it pretty convenient to install new packages, download binaries, and set up new environments (\u003ca href=\"http://www.continuum.io/blog/conda)\" rel=\"nofollow\">http://www.continuum.io/blog/c...\u003c/a>\u003c/p>","isSpam":false,"isHighlighted":false,"points":0}],"thread":{"feed":"https://sebastianraschka.disqus.com/python_27x_and_python_3x_key_differences/latest.rss","identifiers":[],"dislikes":0,"likes":2,"message":"","id":"2725497939","isDeleted":false,"category":"2603171","author":"37273806","userScore":0,"userSubscription":false,"isSpam":false,"signedLink":"http://disq.us/?url=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&key=nr-igazUtI_lXE-_yWLqpQ","createdAt":"2014-05-31T06:01:45","hasStreaming":false,"raw_message":"","isClosed":false,"link":"http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html","slug":"python_27x_and_python_3x_key_differences","forum":"sebastianraschka","clean_title":"Python 2.7.x and Python 3.x key differences","posts":5,"moderators":[37273806],"title":"Python 2.7.x and Python 3.x key differences","highlightedPost":null}},"order":"popular"}</script>
+
+    
+
+    <div id="fixed-content"></div>
+
+
+    
+        
+        <!--[if lte IE 8]>
+<script src="//a.disquscdn.com/1457379538/build/vendor/ie8.js"></script>
+<![endif]-->
+<!--[if IE 9]>
+<script src="//a.disquscdn.com/1457379538/build/vendor/ie9.js"></script>
+<![endif]-->
+
+        
+<script type="text/json" id="disqus-urls">{
+    "root":"//disqus.com",
+    "next":"//a.disquscdn.com/next/current/embed"
+}</script>
+
+        <script src="./lounge.load.3cb7943b9fb8437dea3d29387e24bac1.js" id="bootstrap-script" data-app="lounge" async=""></script>
+    
+
+
+<div id="layout" data-tracking-area="layout">
+
+<div id="onboard" data-tracking-area="onboard"></div>
+
+<div id="highlighted-post" data-tracking-area="highlighted" class="highlighted-post" style="display: none;"></div>
+
+<div id="global-alert"></div>
+
+<header id="main-nav" data-tracking-area="main-nav">
+<nav class="nav nav-primary">
+<ul>
+<li class="tab-conversation active" data-role="post-count"><a class="publisher-nav-color">
+<span class="comment-count">
+5 comments
+</span>
+
+<span class="comment-count-placeholder">
+Comments
+</span>
+</a>
+</li>
+<li class="tab-community">
+<a href="https://disqus.com/home/forums/sebastianraschka/" class="publisher-nav-color" data-action="community-sidebar" data-forum="sebastianraschka" id="community-tab">
+<span class="community-name">
+<strong>SebastianRaschka</strong>
+
+</span>
+
+<strong class="community-name-placeholder">Community</strong>
+</a>
+</li>
+<li class="dropdown user-menu" data-role="logout"><a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" class="dropdown-toggle" data-toggle="dropdown">
+<span class="dropdown-toggle-wrapper">
+
+<span>
+Login
+</span>
+
+</span> <span class="caret"></span>
+</a>
+<ul class="dropdown-menu">
+
+
+<li>
+<a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="auth:disqus">Disqus</a>
+</li>
+<li>
+<a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="auth:facebook">Facebook</a>
+</li>
+<li>
+<a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="auth:twitter">Twitter</a>
+</li>
+<li>
+<a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="auth:google">Google</a>
+</li>
+
+
+
+</ul>
+</li>
+<li class="notification-menu unread" data-role="notification-menu"><a href="https://disqus.com/home/inbox/" class="notification-container" data-action="home" data-home-path="home/inbox/">
+<span class="notification-icon icon-comment" aria-hidden=""></span>
+<span class="notification-count" data-role="notification-count">1</span>
+</a>
+</li>
+</ul>
+</nav>
+</header>
+
+<section id="conversation" data-role="main" data-tracking-area="main">
+<div class="nav nav-secondary" data-tracking-area="secondary-nav">
+<ul>
+<li id="recommend-button" class="recommend dropdown">
+<div class="thread-likes"><a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="recommend" title="Recommend this discussion" class="dropdown-toggle ">
+<span class="icon-heart"></span>
+<span class="label label-default">Recommend</span>
+<span class="label label-recommended">Recommended</span>
+<span class="label label-count">2</span>
+</a>
+<ul class="dropdown-menu coachmark">
+<li>
+<h2>Discussion Recommended!</h2>
+<p>Recommending means this is a discussion worth sharing. It gets shared to your followers' Disqus feeds, and gives the creator kudos!</p>
+<a href="http://disqus.com/home/?utm_source=disqus_embed&amp;utm_content=recommend_btn" class="btn btn-primary" target="_blank">
+ Find More Discussions 
+</a>
+</li>
+</ul>
+</div></li>
+<li id="thread-share-menu" class="dropdown share-menu hidden-sm"><a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" class="dropdown-toggle" data-toggle="dropdown" title="Share">
+<span class="icon-export"></span>
+<span class="label">Share</span>
+</a>
+<ul class="share-menu dropdown-menu">
+<li class="share">Share this discussion on
+<ul>
+<li class="twitter">
+<a data-action="share:twitter" href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#">Twitter</a>
+</li>
+<li class="facebook">
+<a data-action="share:facebook" href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#">Facebook</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li data-role="post-sort" class="dropdown sorting pull-right">
+<a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" class="dropdown-toggle" data-toggle="dropdown">
+Sort by Best
+
+
+<span class="caret"></span>
+</a>
+<ul class="dropdown-menu pull-right">
+<li class="selected">
+<a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="sort" data-sort="popular">Best<i aria-hidden="true" class="icon-checkmark"></i></a>
+</li>
+
+<li>
+<a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="sort" data-sort="desc">Newest<i aria-hidden="true" class="icon-checkmark"></i></a>
+</li>
+
+<li>
+<a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="sort" data-sort="asc">Oldest<i aria-hidden="true" class="icon-checkmark"></i></a>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+
+<div id="posts">
+<div id="form"><form class="reply">
+<div class="postbox">
+<div role="alert"></div>
+<div class="avatar">
+<span class="user">
+<img data-role="user-avatar" src="./noavatar92.4549c5353ccf103d32a8b81a856576ed.png" alt="Avatar">
+</span>
+</div>
+
+<div class="textarea-wrapper" data-role="textarea" dir="auto"><div><span class="placeholder">Join the discussion…</span><div class="textarea" tabindex="0" role="textbox" aria-multiline="true" contenteditable="PLAINTEXT-ONLY" data-role="editable" aria-label="Join the discussion…" style="overflow: auto; max-height: 350px;"><p><br></p></div><div style="display: none;"><ul class="suggestions">
+<li class="header">
+<h5>in this conversation</h5>
+</li>
+</ul>
+</div></div>
+<div data-role="drag-drop-placeholder" class="media-drag-hover" style="display: none">
+<div class="drag-text">
+⬇ Drag and drop your images here to upload them.
+</div>
+</div>
+<div class="media-preview empty" data-role="media-preview"><ul data-role="media-legacy-list"></ul>
+<ul data-role="media-progress-list"></ul>
+<ul data-role="media-rich-list"></ul>
+<div class="media-expanded empty" data-role="media-preview-expanded">
+<img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-role="media-preview-expanded-image" alt="Media preview placeholder">
+</div>
+</div>
+<div class="edit-alert" role="postbox-alert"></div>
+<div class="post-actions">
+<ul class="wysiwyg">
+<li data-role="media-uploader"><a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" tabindex="-1" data-action="attach" class="attach" title="Upload Images"><span>Attach</span></a>
+<input type="file" data-role="media-upload" tabindex="-1" accept="image/*">
+</li>
+</ul>
+</div>
+</div>
+
+<div data-role="login-form"><div><section class="auth-section logged-out">
+<div class="connect">
+<h6>Log in with</h6>
+<ul data-role="login-menu" class="services login-buttons">
+
+
+<li class="auth-disqus">
+<button type="button" data-action="auth:disqus" title="Disqus"><i class="icon-disqus"></i></button>
+</li>
+<li class="auth-facebook">
+<button type="button" data-action="auth:facebook" title="Facebook"><i class="icon-facebook-circle"></i></button>
+</li>
+<li class="auth-twitter">
+<button type="button" data-action="auth:twitter" title="Twitter"><i class="icon-twitter-circle"></i></button>
+</li>
+<li class="auth-google">
+<button type="button" data-action="auth:google" title="Google"><i class="icon-google-plus-circle"></i></button>
+</li>
+</ul>
+</div>
+<div class="guest">
+<h6 class="guest-form-title">
+<span class="register-text"> or sign up with Disqus </span>
+<span class="guest-text"> or pick a name </span>
+</h6>
+
+<div class="what-is-disqus help-icon">
+<div id="rules" class="tooltip show">
+<h3>Disqus is a discussion network</h3>
+<ul>
+<li><span>Disqus never moderates or censors. The rules on this community are its own.</span></li>
+<li><span>Your email is safe with us. It's only used for moderation and optional notifications.</span></li>
+<li><span>Don't be a jerk or do anything illegal. Everything is easier that way.</span></li>
+</ul>
+<p class="clearfix"><a href="https://docs.disqus.com/kb/terms-and-policies/" class="btn btn-small" target="_blank">Read full terms and conditions</a></p>
+</div>
+</div>
+
+<p class="input-wrapper">
+<input dir="auto" type="text" placeholder="Name" name="display_name" id="view42_display_name" maxlength="30">
+</p>
+
+<div class="guest-details " data-role="guest-details">
+<p class="input-wrapper">
+<input dir="auto" type="email" placeholder="Email" name="email" id="view42_email">
+</p>
+
+<p class="input-wrapper">
+<input dir="auto" type="password" class="register-text" placeholder="Password" name="password" id="view42_password">
+</p>
+
+<div class="acceptance-wrapper register-text">
+By signing up, you agree to the Disqus <a target="_blank" href="https://help.disqus.com/customer/portal/articles/1753105-basic-rules-for-disqus-powered-profiles-and-discussions">Basic Rules</a>, <a target="_blank" href="https://help.disqus.com/customer/portal/articles/466260-terms-of-service">Terms of Service</a>, and <a target="_blank" href="https://help.disqus.com/customer/portal/articles/466259-privacy-policy">Privacy Policy</a>.
+</div>
+<div class="acceptance-wrapper guest-text">
+By posting, you agree to the Disqus <a target="_blank" href="https://help.disqus.com/customer/portal/articles/1753105-basic-rules-for-disqus-powered-profiles-and-discussions">Basic Rules</a>, <a target="_blank" href="https://help.disqus.com/customer/portal/articles/466260-terms-of-service">Terms of Service</a>, and <a target="_blank" href="https://help.disqus.com/customer/portal/articles/466259-privacy-policy">Privacy Policy</a>.
+</div>
+
+<div class="guest-checkbox">
+<label>
+<input type="checkbox" name="author-guest">
+I'd rather post as a guest
+</label>
+</div>
+
+<div class="proceed" data-role="submit-btn-container">
+<button type="submit" class="btn submit" aria-label="Post"><span class="icon-proceed"></span><div class="spinner"></div></button>
+<button type="submit" class="btn next" aria-label="Next"><span class="icon-proceed"></span><div class="spinner"></div></button>
+</div>
+</div>
+</div>
+</section>
+
+</div></div>
+</div>
+</form></div>
+
+<button class="alert realtime" style="display: none" data-role="realtime-notification">
+</button>
+
+<div id="no-posts" style="display:none"></div>
+
+<ul id="post-list" class="post-list"><li class="post" id="post-2469720640"><div role="alert"></div>
+<div data-role="post-content" class="post-content">
+<ul class="post-menu dropdown" data-role="menu">
+<li class="collapse">
+<a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="collapse" title="Collapse"><span>−</span></a>
+</li>
+<li class="expand">
+<a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="collapse" title="Expand"><span>+</span></a>
+</li>
+
+<li class="" role="menu">
+<a class="dropdown-toggle" href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="flag" data-role="flag" title="Flag as inappropriate">
+<i aria-hidden="true" class="icon icon-flag"></i>
+</a>
+</li>
+</ul>
+<div class="indicator"></div>
+
+<div class="avatar">
+<div class="user"><img src="./noavatar92.png" class="user" alt="Avatar"></div>
+</div>
+
+<div class="post-body">
+<header>
+<span class="post-byline">
+<span class="author">João Matos</span>
+
+</span>
+
+<span class="post-meta">
+<span class="bullet time-ago-bullet" aria-hidden="true">•</span>
+
+<a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#comment-2469720640" data-role="relative-time" class="time-ago" title="Thursday, January 21, 2016 5:41 AM">3 months ago</a>
+</span>
+
+</header>
+
+<div class="post-body-inner">
+<div class="post-message-container" data-role="message-container">
+<div class="publisher-anchor-color" data-role="message-content">
+<div class="post-message " data-role="message" dir="auto">
+<p>Hello,</p><p>You can also use</p><p>from builtins import input</p><p>to solve the raw_input vs input change.</p><p>Best regardsm</p><p>João Matos</p>
+</div>
+
+<span class="post-media"><ul data-role="post-media-list"></ul></span>
+</div>
+</div>
+<a class="see-more hidden" title="see more" data-action="see-more">see more</a>
+</div>
+
+<footer>
+<menu>
+
+<li class="voting" data-role="voting">
+<a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" class="vote-up  count-0" data-action="upvote" title="Vote up">
+
+<span class="updatable count" data-role="likes">0</span>
+<span class="control"><i aria-hidden="true" class="icon icon-arrow-2"></i></span>
+</a>
+<span role="button" class="vote-down  count-0" data-action="downvote" title="Vote down">
+
+<span class="control"><i aria-hidden="true" class="icon icon-arrow"></i></span>
+</span>
+</li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="reply" data-role="reply-link">
+<a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="reply">
+<i class="icon icon-mobile icon-reply"></i><span class="text">Reply</span></a></li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="share">
+<a class="toggle"><i class="icon icon-mobile icon-share"></i><span class="text">Share ›</span></a>
+<ul>
+<li class="twitter"><a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="share:twitter">Twitter</a></li>
+<li class="facebook"><a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="share:facebook">Facebook</a></li>
+<li class="link"><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#comment-2469720640">Link</a></li>
+</ul>
+</li>
+
+<li class="realtime" data-role="realtime-notification:2469720640">
+<span style="display:none;" class="realtime-replies"></span>
+<a style="display:none;" href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" class="btn btn-small"></a>
+</li>
+
+</menu>
+</footer>
+</div>
+
+<div data-role="blacklist-form"></div>
+<div class="reply-form-container" data-role="reply-form"></div>
+</div>
+
+<ul data-role="children" class="children"></ul>
+
+</li><li class="post" id="post-2469711980"><div role="alert"></div>
+<div data-role="post-content" class="post-content">
+<ul class="post-menu dropdown" data-role="menu">
+<li class="collapse">
+<a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="collapse" title="Collapse"><span>−</span></a>
+</li>
+<li class="expand">
+<a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="collapse" title="Expand"><span>+</span></a>
+</li>
+
+<li class="" role="menu">
+<a class="dropdown-toggle" href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="flag" data-role="flag" title="Flag as inappropriate">
+<i aria-hidden="true" class="icon icon-flag"></i>
+</a>
+</li>
+</ul>
+<div class="indicator"></div>
+
+<div class="avatar">
+<div class="user"><img src="./noavatar92.png" class="user" alt="Avatar"></div>
+</div>
+
+<div class="post-body">
+<header>
+<span class="post-byline">
+<span class="author">João Matos</span>
+
+</span>
+
+<span class="post-meta">
+<span class="bullet time-ago-bullet" aria-hidden="true">•</span>
+
+<a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#comment-2469711980" data-role="relative-time" class="time-ago" title="Thursday, January 21, 2016 5:30 AM">3 months ago</a>
+</span>
+
+</header>
+
+<div class="post-body-inner">
+<div class="post-message-container" data-role="message-container">
+<div class="publisher-anchor-color" data-role="message-content">
+<div class="post-message " data-role="message" dir="auto">
+<p>Hello,</p><p>May I recommend using</p><p>from builtins import range<br>Also, check out</p><p><a href="http://python-future.org/reference.html?highlight=range#future.builtins.range" rel="nofollow">http://python-future.org/refer...</a></p><p>for more info on Py2 to Py3.</p><p>Best regards,</p><p>João Matos</p>
+</div>
+
+<span class="post-media"><ul data-role="post-media-list"></ul></span>
+</div>
+</div>
+<a class="see-more hidden" title="see more" data-action="see-more">see more</a>
+</div>
+
+<footer>
+<menu>
+
+<li class="voting" data-role="voting">
+<a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" class="vote-up  count-0" data-action="upvote" title="Vote up">
+
+<span class="updatable count" data-role="likes">0</span>
+<span class="control"><i aria-hidden="true" class="icon icon-arrow-2"></i></span>
+</a>
+<span role="button" class="vote-down  count-0" data-action="downvote" title="Vote down">
+
+<span class="control"><i aria-hidden="true" class="icon icon-arrow"></i></span>
+</span>
+</li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="reply" data-role="reply-link">
+<a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="reply">
+<i class="icon icon-mobile icon-reply"></i><span class="text">Reply</span></a></li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="share">
+<a class="toggle"><i class="icon icon-mobile icon-share"></i><span class="text">Share ›</span></a>
+<ul>
+<li class="twitter"><a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="share:twitter">Twitter</a></li>
+<li class="facebook"><a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="share:facebook">Facebook</a></li>
+<li class="link"><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#comment-2469711980">Link</a></li>
+</ul>
+</li>
+
+<li class="realtime" data-role="realtime-notification:2469711980">
+<span style="display:none;" class="realtime-replies"></span>
+<a style="display:none;" href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" class="btn btn-small"></a>
+</li>
+
+</menu>
+</footer>
+</div>
+
+<div data-role="blacklist-form"></div>
+<div class="reply-form-container" data-role="reply-form"></div>
+</div>
+
+<ul data-role="children" class="children"></ul>
+
+</li><li class="post" id="post-2434298909"><div role="alert"></div>
+<div data-role="post-content" class="post-content">
+<ul class="post-menu dropdown" data-role="menu">
+<li class="collapse">
+<a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="collapse" title="Collapse"><span>−</span></a>
+</li>
+<li class="expand">
+<a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="collapse" title="Expand"><span>+</span></a>
+</li>
+
+<li class="" role="menu">
+<a class="dropdown-toggle" href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="flag" data-role="flag" title="Flag as inappropriate">
+<i aria-hidden="true" class="icon icon-flag"></i>
+</a>
+</li>
+</ul>
+<div class="indicator"></div>
+
+<div class="avatar">
+<div class="user"><img src="./noavatar92.png" class="user" alt="Avatar"></div>
+</div>
+
+<div class="post-body">
+<header>
+<span class="post-byline">
+<span class="author">Beanman</span>
+
+</span>
+
+<span class="post-meta">
+<span class="bullet time-ago-bullet" aria-hidden="true">•</span>
+
+<a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#comment-2434298909" data-role="relative-time" class="time-ago" title="Thursday, December 31, 2015 7:57 PM">4 months ago</a>
+</span>
+
+</header>
+
+<div class="post-body-inner">
+<div class="post-message-container" data-role="message-container">
+<div class="publisher-anchor-color" data-role="message-content">
+<div class="post-message " data-role="message" dir="auto">
+<p>2.7 if you want pypy support. 3 if you don't care about less supported libraries.</p>
+</div>
+
+<span class="post-media"><ul data-role="post-media-list"></ul></span>
+</div>
+</div>
+<a class="see-more hidden" title="see more" data-action="see-more">see more</a>
+</div>
+
+<footer>
+<menu>
+
+<li class="voting" data-role="voting">
+<a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" class="vote-up  count-0" data-action="upvote" title="Vote up">
+
+<span class="updatable count" data-role="likes">0</span>
+<span class="control"><i aria-hidden="true" class="icon icon-arrow-2"></i></span>
+</a>
+<span role="button" class="vote-down  count-0" data-action="downvote" title="Vote down">
+
+<span class="control"><i aria-hidden="true" class="icon icon-arrow"></i></span>
+</span>
+</li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="reply" data-role="reply-link">
+<a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="reply">
+<i class="icon icon-mobile icon-reply"></i><span class="text">Reply</span></a></li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="share">
+<a class="toggle"><i class="icon icon-mobile icon-share"></i><span class="text">Share ›</span></a>
+<ul>
+<li class="twitter"><a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="share:twitter">Twitter</a></li>
+<li class="facebook"><a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="share:facebook">Facebook</a></li>
+<li class="link"><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#comment-2434298909">Link</a></li>
+</ul>
+</li>
+
+<li class="realtime" data-role="realtime-notification:2434298909">
+<span style="display:none;" class="realtime-replies"></span>
+<a style="display:none;" href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" class="btn btn-small"></a>
+</li>
+
+</menu>
+</footer>
+</div>
+
+<div data-role="blacklist-form"></div>
+<div class="reply-form-container" data-role="reply-form"></div>
+</div>
+
+<ul data-role="children" class="children"></ul>
+
+</li><li class="post" id="post-1770462540"><div role="alert"></div>
+<div data-role="post-content" class="post-content">
+<ul class="post-menu dropdown" data-role="menu">
+<li class="collapse">
+<a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="collapse" title="Collapse"><span>−</span></a>
+</li>
+<li class="expand">
+<a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="collapse" title="Expand"><span>+</span></a>
+</li>
+
+<li class="" role="menu">
+<a class="dropdown-toggle" href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="flag" data-role="flag" title="Flag as inappropriate">
+<i aria-hidden="true" class="icon icon-flag"></i>
+</a>
+</li>
+</ul>
+<div class="indicator"></div>
+
+<div class="avatar hovercard">
+<a href="https://disqus.com/by/naml3i/" class="user" data-action="profile" data-username="naml3i">
+<img data-role="user-avatar" data-user="124910989" src="./avatar92.jpg" alt="Avatar">
+</a>
+</div>
+<div class="post-body">
+<header>
+<span class="post-byline">
+<span class="author publisher-anchor-color"><a href="https://disqus.com/by/naml3i/" data-action="profile" data-username="naml3i" data-role="username">Nam Le</a></span>
+
+</span>
+
+<span class="post-meta">
+<span class="bullet time-ago-bullet" aria-hidden="true">•</span>
+
+<a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#comment-1770462540" data-role="relative-time" class="time-ago" title="Saturday, January 3, 2015 4:12 PM">a year ago</a>
+</span>
+
+</header>
+
+<div class="post-body-inner">
+<div class="post-message-container" data-role="message-container">
+<div class="publisher-anchor-color" data-role="message-content">
+<div class="post-message " data-role="message" dir="auto">
+<p>Hello Sebastian,</p><p>I'm currently using Python 2.7.6 and I want to stay with Python 2 so not to breaking the current code. Besides, some of the packages are now not fully ported to Python 3 (e.g OpenCV, Numpy, Scipy). So I'm just wonder if I should upgrade from 2.7.6 to 2.7.9? (As a Windows user, I see Python is installed in "C:\Python27", so will installing 2.7.9 break the current settings and packages which I'm having with 2.7.6?<br>Cheers,<br>Nam.</p>
+</div>
+
+<span class="post-media"><ul data-role="post-media-list"></ul></span>
+</div>
+</div>
+<a class="see-more hidden" title="see more" data-action="see-more">see more</a>
+</div>
+
+<footer>
+<menu>
+
+<li class="voting" data-role="voting">
+<a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" class="vote-up  count-0" data-action="upvote" title="Vote up">
+
+<span class="updatable count" data-role="likes">0</span>
+<span class="control"><i aria-hidden="true" class="icon icon-arrow-2"></i></span>
+</a>
+<span role="button" class="vote-down  count-0" data-action="downvote" title="Vote down">
+
+<span class="control"><i aria-hidden="true" class="icon icon-arrow"></i></span>
+</span>
+</li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="reply" data-role="reply-link">
+<a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="reply">
+<i class="icon icon-mobile icon-reply"></i><span class="text">Reply</span></a></li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="share">
+<a class="toggle"><i class="icon icon-mobile icon-share"></i><span class="text">Share ›</span></a>
+<ul>
+<li class="twitter"><a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="share:twitter">Twitter</a></li>
+<li class="facebook"><a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="share:facebook">Facebook</a></li>
+<li class="link"><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#comment-1770462540">Link</a></li>
+</ul>
+</li>
+
+<li class="realtime" data-role="realtime-notification:1770462540">
+<span style="display:none;" class="realtime-replies"></span>
+<a style="display:none;" href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" class="btn btn-small"></a>
+</li>
+
+</menu>
+</footer>
+</div>
+
+<div data-role="blacklist-form"></div>
+<div class="reply-form-container" data-role="reply-form"></div>
+</div>
+
+<ul data-role="children" class="children"><li class="post" id="post-1825083461"><div role="alert"></div>
+<div data-role="post-content" class="post-content">
+<ul class="post-menu dropdown" data-role="menu">
+<li class="collapse">
+<a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="collapse" title="Collapse"><span>−</span></a>
+</li>
+<li class="expand">
+<a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="collapse" title="Expand"><span>+</span></a>
+</li>
+
+<li class="" role="menu">
+<a class="dropdown-toggle" href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="flag" data-role="flag" title="Flag as inappropriate">
+<i aria-hidden="true" class="icon icon-flag"></i>
+</a>
+</li>
+</ul>
+<div class="indicator"></div>
+
+<div class="avatar hovercard">
+<a href="https://disqus.com/by/seraschka/" class="user" data-action="profile" data-username="seraschka">
+<img data-role="user-avatar" data-user="37273806" src="./avatar92(1).jpg" alt="Avatar">
+</a>
+</div>
+<div class="post-body">
+<header>
+<span class="post-byline">
+<span class="author publisher-anchor-color"><a href="https://disqus.com/by/seraschka/" data-action="profile" data-username="seraschka" data-role="username">Sebastian Raschka</a></span>
+<span class="badge moderator">Mod</span>
+
+<span><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#comment-1770462540" class="parent-link" data-role="parent-link"><i aria-hidden="true" class="icon-forward" title="in reply to"></i> Nam Le</a></span>
+</span>
+
+<span class="post-meta">
+<span class="bullet time-ago-bullet" aria-hidden="true">•</span>
+
+<a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#comment-1825083461" data-role="relative-time" class="time-ago" title="Friday, January 30, 2015 1:50 AM">a year ago</a>
+</span>
+
+</header>
+
+<div class="post-body-inner">
+<div class="post-message-container" data-role="message-container">
+<div class="publisher-anchor-color" data-role="message-content">
+<div class="post-message " data-role="message" dir="auto">
+<p>Hi, Nam,</p><p>sorry for the late reply. I am not 100% sure about OpenCV, but NumPy and SciPy are fully supported by Python 3.x.</p><p>To your question about the Python 2.7.x upgrade: I would recommend you to install the new Python version as a separate environment. That's how I typically do it: If a new Python version comes around, I typically keep the previous one too for just in case. I don't know anything about Windows, but in general I would also recommend you to check out Anaconda (I see that it is available for the Windows platform too). Anaconda is a distribution for Python that takes away all the challenges with package management and makes it pretty convenient to install new packages, download binaries, and set up new environments (<a href="http://www.continuum.io/blog/conda)" rel="nofollow">http://www.continuum.io/blog/c...</a></p>
+</div>
+
+<span class="post-media"><ul data-role="post-media-list"></ul></span>
+</div>
+</div>
+<a class="see-more hidden" title="see more" data-action="see-more">see more</a>
+</div>
+
+<footer>
+<menu>
+
+<li class="voting" data-role="voting">
+<a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" class="vote-up  count-0" data-action="upvote" title="Vote up">
+
+<span class="updatable count" data-role="likes">0</span>
+<span class="control"><i aria-hidden="true" class="icon icon-arrow-2"></i></span>
+</a>
+<span role="button" class="vote-down  count-0" data-action="downvote" title="Vote down">
+
+<span class="control"><i aria-hidden="true" class="icon icon-arrow"></i></span>
+</span>
+</li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="reply" data-role="reply-link">
+<a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="reply">
+<i class="icon icon-mobile icon-reply"></i><span class="text">Reply</span></a></li>
+<li class="bullet" aria-hidden="true">•</li>
+
+
+<li class="share">
+<a class="toggle"><i class="icon icon-mobile icon-share"></i><span class="text">Share ›</span></a>
+<ul>
+<li class="twitter"><a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="share:twitter">Twitter</a></li>
+<li class="facebook"><a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="share:facebook">Facebook</a></li>
+<li class="link"><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#comment-1825083461">Link</a></li>
+</ul>
+</li>
+
+<li class="realtime" data-role="realtime-notification:1825083461">
+<span style="display:none;" class="realtime-replies"></span>
+<a style="display:none;" href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" class="btn btn-small"></a>
+</li>
+
+</menu>
+</footer>
+</div>
+
+<div data-role="blacklist-form"></div>
+<div class="reply-form-container" data-role="reply-form"></div>
+</div>
+
+<ul data-role="children" class="children"></ul>
+
+</li></ul>
+
+</li></ul>
+
+<div class="load-more" data-role="more" style="display:none">
+<a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" data-action="more-posts" class="btn">Load more comments</a>
+</div>
+</div>
+
+</section>
+
+<div id="placement-bottom" data-tracking-area="discovery-south"><div class="post-list" style="height: auto; visibility: visible;"><div style="display: block; width: 100%;"><div id="discovery-main-c151" class="discovery-main">
+
+<section id="col-organic-c169" class="col-organic">
+<header class="discovery-col-header">
+<h2>Also on <strong>SebastianRaschka</strong>
+</h2>
+</header>
+<ul class="discovery-posts" data-role="discovery-posts"><li class="discovery-post post-0" id="discovery-link-organic-4062707273">
+<a href="http://disq.us/url?url=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2015_why_python.html%3Aww_GnKDrvb7l49w4rapopnK4i2Y&amp;imp=160l1291bhooms&amp;prev_imp&amp;forum_id=2564201&amp;forum=sebastianraschka&amp;thread_id=2725497939&amp;thread=4062707273&amp;zone=thread&amp;area=bottom&amp;object_type=thread&amp;object_id=4062707273" class="publisher-anchor-color">
+
+<header class="discovery-post-header">
+<h3 title="Python, Machine Learning, and Language Wars. A Highly Subjective Point of View">
+<span data-role="discovery-thread-title" class="title line-truncate" data-line-truncate="2">
+Python, Machine Learning, and Language Wars. A Highly Subjective Point of View
+</span>
+</h3>
+
+<ul class="meta">
+<li class="comments">
+5 comments
+</li>
+<li class="time">8 months ago</li>
+</ul>
+</header>
+
+</a><a href="http://disq.us/url?url=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2015_why_python.html%3Aww_GnKDrvb7l49w4rapopnK4i2Y&amp;imp=160l1291bhooms&amp;prev_imp&amp;forum_id=2564201&amp;forum=sebastianraschka&amp;thread_id=2725497939&amp;thread=4062707273&amp;zone=thread&amp;area=bottom&amp;object_type=thread&amp;object_id=4062707273" class="top-comment" data-role="discovery-top-comment">
+<img alt="Avatar" data-role="discovery-avatar" src="./avatar92(2).jpg">
+<p><span class="user" data-role="discovery-top-comment-author">John Marino</span> — <span data-role="discovery-top-comment-snippet" class="line-truncate" data-line-truncate="3"> Very sensible and level-headed.  (I have had many of the same thoughts!)  I've been a SAS user for decades and can get it to do …</span></p>
+</a>
+
+</li>
+<li class="discovery-post post-1" id="discovery-link-organic-3595058669">
+<a href="http://disq.us/url?url=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2015_singlelayer_neurons.html%3AuHFUGVACsYxMQS4ip7VVPlQvvoQ&amp;imp=160l1291bhooms&amp;prev_imp&amp;forum_id=2564201&amp;forum=sebastianraschka&amp;thread_id=2725497939&amp;thread=3595058669&amp;zone=thread&amp;area=bottom&amp;object_type=thread&amp;object_id=3595058669" class="publisher-anchor-color">
+
+<header class="discovery-post-header">
+<h3 title="Artificial Neurons and Single-Layer Neural Networks">
+<span data-role="discovery-thread-title" class="title line-truncate" data-line-truncate="2">
+Artificial Neurons and Single-Layer Neural Networks
+</span>
+</h3>
+
+<ul class="meta">
+<li class="comments">
+16 comments
+</li>
+<li class="time">a year ago</li>
+</ul>
+</header>
+
+</a><a href="http://disq.us/url?url=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2015_singlelayer_neurons.html%3AuHFUGVACsYxMQS4ip7VVPlQvvoQ&amp;imp=160l1291bhooms&amp;prev_imp&amp;forum_id=2564201&amp;forum=sebastianraschka&amp;thread_id=2725497939&amp;thread=3595058669&amp;zone=thread&amp;area=bottom&amp;object_type=thread&amp;object_id=3595058669" class="top-comment" data-role="discovery-top-comment">
+<img alt="Avatar" data-role="discovery-avatar" src="./avatar92(1).jpg">
+<p><span class="user" data-role="discovery-top-comment-author">Sebastian Raschka</span> — <span data-role="discovery-top-comment-snippet" class="line-truncate" data-line-truncate="3"> Thanks, that's really encouraging! First, I was afraid that it ends up being a boring article no one cares about, but …</span></p>
+</a>
+
+</li>
+<li class="discovery-post post-2" id="discovery-link-organic-3430344697">
+<a href="http://disq.us/url?url=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2015_pca_in_3_steps.html%3AoyzbR2Bi-9eJO-QxbpMvtE4baY8&amp;imp=160l1291bhooms&amp;prev_imp&amp;forum_id=2564201&amp;forum=sebastianraschka&amp;thread_id=2725497939&amp;thread=3430344697&amp;zone=thread&amp;area=bottom&amp;object_type=thread&amp;object_id=3430344697" class="publisher-anchor-color">
+
+<header class="discovery-post-header">
+<h3 title="PCA in 3 Steps">
+<span data-role="discovery-thread-title" class="title line-truncate" data-line-truncate="2">
+PCA in 3 Steps
+</span>
+</h3>
+
+<ul class="meta">
+<li class="comments">
+47 comments
+</li>
+<li class="time">a year ago</li>
+</ul>
+</header>
+
+</a><a href="http://disq.us/url?url=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2015_pca_in_3_steps.html%3AoyzbR2Bi-9eJO-QxbpMvtE4baY8&amp;imp=160l1291bhooms&amp;prev_imp&amp;forum_id=2564201&amp;forum=sebastianraschka&amp;thread_id=2725497939&amp;thread=3430344697&amp;zone=thread&amp;area=bottom&amp;object_type=thread&amp;object_id=3430344697" class="top-comment" data-role="discovery-top-comment">
+<img alt="Avatar" data-role="discovery-avatar" src="./avatar92(3).jpg">
+<p><span class="user" data-role="discovery-top-comment-author">Pavan Yadiki</span> — <span data-role="discovery-top-comment-snippet" class="line-truncate" data-line-truncate="3">Thank you so much, i truly appreciate for the way you explained this.</span></p>
+</a>
+
+</li>
+<li class="discovery-post post-3" id="discovery-link-organic-2740473349">
+<a href="http://disq.us/url?url=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_matrix_cheatsheet.html%3AFVvOB2zVgp6-UQggFUboGCK_LYQ&amp;imp=160l1291bhooms&amp;prev_imp&amp;forum_id=2564201&amp;forum=sebastianraschka&amp;thread_id=2725497939&amp;thread=2740473349&amp;zone=thread&amp;area=bottom&amp;object_type=thread&amp;object_id=2740473349" class="publisher-anchor-color">
+
+<header class="discovery-post-header">
+<h3 title="Matric Cheat Sheet">
+<span data-role="discovery-thread-title" class="title line-truncate" data-line-truncate="2">
+Matric Cheat Sheet
+</span>
+</h3>
+
+<ul class="meta">
+<li class="comments">
+9 comments
+</li>
+<li class="time">2 years ago</li>
+</ul>
+</header>
+
+</a><a href="http://disq.us/url?url=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_matrix_cheatsheet.html%3AFVvOB2zVgp6-UQggFUboGCK_LYQ&amp;imp=160l1291bhooms&amp;prev_imp&amp;forum_id=2564201&amp;forum=sebastianraschka&amp;thread_id=2725497939&amp;thread=2740473349&amp;zone=thread&amp;area=bottom&amp;object_type=thread&amp;object_id=2740473349" class="top-comment" data-role="discovery-top-comment">
+<img alt="Avatar" data-role="discovery-avatar" src="./avatar92(4).jpg">
+<p><span class="user" data-role="discovery-top-comment-author">Chris Barker</span> — <span data-role="discovery-top-comment-snippet" class="line-truncate" data-line-truncate="3"> Being a numpy guy, I focused on that column. Here are a few suggestions:  ** re-shaping: you'd never do all that with computing …</span></p>
+</a>
+
+</li>
+</ul>
+</section>
+
+</div>
+</div></div></div>
+
+<div id="footer" data-tracking-area="footer">
+<ul class="disqus-footer">
+<li class="logo disqus-footer__item"><a href="https://disqus.com/" rel="nofollow" title="Powered by Disqus">Powered by Disqus</a></li>
+<li id="thread-subscribe-button" class="email disqus-footer__item"> 
+<div class="default">
+<a href="http://disqus.com/embed/comments/?base=default&amp;version=3cb7943b9fb8437dea3d29387e24bac1&amp;f=sebastianraschka&amp;t_u=http%3A%2F%2Fsebastianraschka.com%2FArticles%2F2014_python_2_3_key_diff.html&amp;t_d=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;t_t=The%20key%20differences%20between%20Python%202.7.x%20and%20Python%203.x%20with%20examples&amp;s_o=default#" rel="nofollow" data-action="subscribe" title="Subscribe and get email updates from this discussion"><i aria-hidden="true" class="icon icon-mail"></i><span class="clip">Subscribe</span> <i aria-hidden="true" class="icon icon-checkmark"></i></a>
+</div>
+<div class="form">
+<div class="input-wrapper"><input id="thread-subscribe-email" type="email" placeholder="yourname@email.com"></div>
+</div>
+</li>
+<li class="install disqus-footer__item">
+<a href="https://publishers.disqus.com/engage?utm_source=sebastianraschka&amp;utm_medium=Disqus-Footer" rel="nofollow" target="_blank">
+<i aria-hidden="true" class="icon icon-disqus"></i>
+<span class="clip hidden-sm">Add Disqus to your site</span>
+<span class="clip visible-sm hidden-xs">Add Disqus</span>
+<span class="clip visible-xs">Add</span>
+</a>
+</li>
+<li class="privacy disqus-footer__item">
+<a href="https://help.disqus.com/customer/portal/articles/1657951?utm_source=disqus&amp;utm_medium=embed-footer&amp;utm_content=privacy-btn" rel="nofollow" target="_blank">
+<i aria-hidden="true" class="icon icon-lock"></i>
+<span class="clip">Privacy</span>
+</a>
+</li>
+</ul>
+</div>
+</div></body></html>

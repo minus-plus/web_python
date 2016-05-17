@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>hw4 setting cookies</title>
+		<style type="text/css">
+		.label    {text-align: right;}
+		table {margin: auto; padding: 10px;}
+		
+		div.table {background-color:lightblue;
+				   width:400px;
+				   padding: 20px;
+				   margin: auto;
+		}
+		div.error, div.submit {margin:auto; text-align: center; padding: 5px;}
+		div.error {color:red;}
+		
+		</style>
+	</head>
+	
+	
+	<body>
+	<h2 style="text-align:center;">Log in</h2>
+	</body>
+	<form method='post'>
+	<div class='table'>
+		<table>
+			<tr>
+				<td class="label">Username</td>
+				<td>
+					<input type="text" name="username" value="{{username}}">
+				</td>
+				<td class="error">
+					{{error_username}}
+				</td>
+			</tr>
+			<tr>
+				<td class="label">Password</td>
+				<td>
+					<input type="password" name="password" value="">
+				</td>
+				<td class="error">
+					{{error_password}}
+				</td>
+			</tr>	
+			<tr>
+				
+			</tr>
+		</table>
+		<div class="error">
+			{{error}}
+		</div>
+		<div class="submit">
+			<input type="submit">
+		</div>
+	</div>
+	</form>
+</html>

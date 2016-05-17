@@ -1,0 +1,33 @@
+<! DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+body {
+	font-family: sans-serif; width: 800px; margin: 0; padding: 10px;
+}
+div {
+	padding: 10px;
+}
+div.blog-title {
+	font-size: 20px;
+}
+div.blog-content {
+	font-size: 15px;
+}
+hr {
+	margin: 0px auto;
+}
+
+</style>
+</head>
+<body>
+    <h1>My Blogs</h1>
+	<br>
+    {% for blog in blogs %}
+		<label>
+		<div type="text" name="blog-title" class="blog-title">{{blog.subject}}</div>
+		<hr>
+		<div type="text" name="blog-content" class="blog-content">{{blog.blog}}</div>
+	{% endfor %}
+</body>
+</html>

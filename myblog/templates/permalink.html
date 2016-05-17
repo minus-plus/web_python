@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+
+{% block content %}
+	{{post.render_in_post() | safe}}
+{% endblock %}

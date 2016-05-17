@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<!-- saved from url=(0110)http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#returning-iterable-objects-instead-of-lists -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>The key differences between Python 2.7.x and Python 3.x with examples</title>
+    <meta name="description" content="This is the personal website of a data scientist and machine learning enthusiast with a big passion for Python and open source. Born and raised in Germany, now living in East Lansing, Michigan.
+">
+    <style class="anchorjs"></style><link rel="stylesheet" href="./The key differences between Python 2.7.x and Python 3.x with examples_files/main.css">
+    <link rel="stylesheet" href="./The key differences between Python 2.7.x and Python 3.x with examples_files/font-awesome.min.css">
+    <meta property="og:title" content="The key differences between Python 2.7.x and Python 3.x with examples">
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html">
+
+
+  <meta property="og:image" content="">
+
+
+<meta property="og:description" content="Many beginning Python users are wondering with which version of Python they should start. My answer to this question is usually something along the lines “ju...">
+<meta property="og:site_name" content="Sebastian Raschka&#39;s Website">
+<meta property="og:locale" content="en_US">
+
+    <meta property="article:published_time" content="2014-06-01T05:00:00-04:00">
+    <meta property="article:author" content="">
+    
+        <meta property="og:see_also" content="http://sebastianraschka.com/blog/2015/writing-pymle.html">
+    
+        <meta property="og:see_also" content="http://sebastianraschka.com/blog/2015/why-python.html">
+    
+        <meta property="og:see_also" content="http://sebastianraschka.com/Articles/2015_singlelayer_neurons.html">
+    
+
+
+<meta property="fb:admins" content="">
+<meta property="fb:app_id" content="">
+
+    <link rel="canonical" href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html">
+
+<script async="" src="./The key differences between Python 2.7.x and Python 3.x with examples_files/async-ads.js"></script><script type="text/javascript" async="" src="./The key differences between Python 2.7.x and Python 3.x with examples_files/ga.js"></script><script type="text/javascript" async="" src="./The key differences between Python 2.7.x and Python 3.x with examples_files/embed.js"></script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style><style type="text/css">.gscb_a{display:inline-block;font:27px/13px arial,sans-serif}.gsst_a .gscb_a{color:#a1b9ed;cursor:pointer}.gsst_a:hover .gscb_a,.gsst_a:focus .gscb_a{color:#36c}.gsst_a{display:inline-block}.gsst_a{cursor:pointer;padding:0 4px}.gsst_a:hover{text-decoration:none!important}.gsst_b{font-size:16px;padding:0 2px;position:relative;user-select:none;-webkit-user-select:none;white-space:nowrap}.gsst_e{opacity:0.55;}.gsst_a:hover .gsst_e,.gsst_a:focus .gsst_e{opacity:0.72;}.gsst_a:active .gsst_e{opacity:1;}.gsst_f{background:white;text-align:left}.gsst_g{background-color:white;border:1px solid #ccc;border-top-color:#d9d9d9;box-shadow:0 2px 4px rgba(0,0,0,0.2);-webkit-box-shadow:0 2px 4px rgba(0,0,0,0.2);margin:-1px -3px;padding:0 6px}.gsst_h{background-color:white;height:1px;margin-bottom:-1px;position:relative;top:-1px}.gsib_a{width:100%;padding:4px 6px 0}.gsib_a,.gsib_b{vertical-align:top}.gssb_c{border:0;position:absolute;z-index:989}.gssb_e{border:1px solid #ccc;border-top-color:#d9d9d9;box-shadow:0 2px 4px rgba(0,0,0,0.2);-webkit-box-shadow:0 2px 4px rgba(0,0,0,0.2);cursor:default}.gssb_f{visibility:hidden;white-space:nowrap}.gssb_k{border:0;display:block;position:absolute;top:0;z-index:988}.gsdd_a{border:none!important}.gscsep_a{display:none}.gsq_a{padding:0}.gssb_a{padding:0 7px}.gssb_a,.gssb_a td{white-space:nowrap;overflow:hidden;line-height:22px}#gssb_b{font-size:11px;color:#36c;text-decoration:none}#gssb_b:hover{font-size:11px;color:#36c;text-decoration:underline}.gssb_g{text-align:center;padding:8px 0 7px;position:relative}.gssb_h{font-size:15px;height:28px;margin:0.2em;-webkit-appearance:button}.gssb_i{background:#eee}.gss_ifl{visibility:hidden;padding-left:5px}.gssb_i .gss_ifl{visibility:visible}a.gssb_j{font-size:13px;color:#36c;text-decoration:none;line-height:100%}a.gssb_j:hover{text-decoration:underline}.gssb_l{height:1px;background-color:#e5e5e5}.gssb_m{color:#000;background:#fff}.gsfe_a{border:1px solid #b9b9b9;border-top-color:#a0a0a0;box-shadow:inset 0px 1px 2px rgba(0,0,0,0.1);-moz-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.1);-webkit-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.1);}.gsfe_b{border:1px solid #4d90fe;outline:none;box-shadow:inset 0px 1px 2px rgba(0,0,0,0.3);-moz-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.3);-webkit-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.3);}.gssb_a{padding:0 7px}.gssb_e{border:0}.gssb_l{margin:5px 0}.gssb_c .gsc-completion-container{position:static}.gssb_c{z-index:5000}.gsc-completion-container table{background:transparent;font-size:inherit;font-family:inherit}.gssb_c > tbody > tr,.gssb_c > tbody > tr > td,.gssb_d,.gssb_d > tbody > tr,.gssb_d > tbody > tr > td,.gssb_e,.gssb_e > tbody > tr,.gssb_e > tbody > tr > td{padding:0;margin:0;border:0}.gssb_a table,.gssb_a table tr,.gssb_a table tr td{padding:0;margin:0;border:0}</style><script src="./The key differences between Python 2.7.x and Python 3.x with examples_files/alfie.f51946af45e0b561c60f768335c9eb79.js" async="" charset="UTF-8"></script></head>
+
+
+  <body youdao="bind"><div id="MathJax_Message" style="display: none;"></div>
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="http://sebastianraschka.com/" style="text-decoration: none;">sebastian<span style="color:#4099ff">raschka</span></a>
+
+    <nav class="site-nav">
+      <a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"></path>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"></path>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"></path>
+        </svg>
+      </a>
+
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="http://sebastianraschka.com/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+          <a class="page-link" href="http://sebastianraschka.com/books.html">Books</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+          <a class="page-link" href="http://sebastianraschka.com/elsewhere.html">Elsewhere</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+          <a class="page-link" href="http://sebastianraschka.com/projects.html">Projects</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+          <a class="page-link" href="http://sebastianraschka.com/resources.html">Resources</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <a class="page-link" href="http://sebastianraschka.com/blog/index.html">Blog</a>
+        <a class="page-link" href="http://sebastianraschka.com/faq/index.html">Machine&nbsp;Learning&nbsp;FAQ</a>
+
+
+      </div>
+
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <script src="./The key differences between Python 2.7.x and Python 3.x with examples_files/MathJax.js" type="text/javascript"></script>
+
+<div class="post">
+  <header class="post-header">
+
+
+
+    <div class="rss">
+
+
+
+<table style="width:100%">
+  <tbody><tr>
+   <td>  <div class="search_form">
+            <div id="cse"><div class="gsc-control-cse gsc-control-cse-en"><div class="gsc-control-wrapper-cse" dir="ltr"><form class="gsc-search-box" accept-charset="utf-8"><table cellspacing="0" cellpadding="0" class="gsc-search-box"><tbody><tr><td class="gsc-input"><input autocomplete="off" type="text" size="10" class=" gsc-input" name="search" title="search" id="gsc-i-id1" dir="ltr" spellcheck="false" style="outline: none;"><input type="hidden" name="bgresponse" id="bgresponse"></td><td class="gsc-search-button"><input type="button" value="Search" class="gsc-search-button" title="search"></td><td class="gsc-clear-button"><div class="gsc-clear-button" title="clear results">&nbsp;</div></td></tr></tbody></table><table cellspacing="0" cellpadding="0" class="gsc-branding"><tbody><tr style="display: none;"><td class="gsc-branding-user-defined"></td><td class="gsc-branding-text"><div class="gsc-branding-text">powered by</div></td><td class="gsc-branding-img"><img src="./The key differences between Python 2.7.x and Python 3.x with examples_files/small-logo.png" class="gsc-branding-img"></td></tr></tbody></table></form><div class="gsc-results-wrapper-nooverlay"><div class="gsc-tabsAreaInvisible"><div class="gsc-tabHeader gsc-inline-block gsc-tabhActive">Custom Search</div><span class="gs-spacer"> </span></div><div class="gsc-tabsAreaInvisible"></div><div class="gsc-above-wrapper-area-invisible"><table cellspacing="0" cellpadding="0" class="gsc-above-wrapper-area-container"><tbody><tr><td class="gsc-result-info-container"><div class="gsc-result-info-invisible"></div></td></tr></tbody></table></div><div class="gsc-adBlockInvisible"></div><div class="gsc-wrapper"><div class="gsc-adBlockInvisible"></div><div class="gsc-resultsbox-invisible"><div class="gsc-resultsRoot gsc-tabData gsc-tabdActive"><table cellspacing="0" cellpadding="0" class="gsc-resultsHeader"><tbody><tr><td class="gsc-twiddleRegionCell"><div class="gsc-twiddle"><div class="gsc-title">Web</div></div><div class="gsc-stats"></div><div class="gsc-results-selector gsc-all-results-active"><div class="gsc-result-selector gsc-one-result" title="show one result">&nbsp;</div><div class="gsc-result-selector gsc-more-results" title="show more results">&nbsp;</div><div class="gsc-result-selector gsc-all-results" title="show all results">&nbsp;</div></div></td><td class="gsc-configLabelCell"></td></tr></tbody></table><div><div class="gsc-expansionArea"></div></div></div></div></div></div></div></div></div>
+         </div>
+   </td>
+   <td>
+     
+     <a href="http://sebastianraschka.com/rss_feed.xml"><span><i class="fa fa-rss fa-2x"></i>[RSS]</span></a>
+
+     
+   </td>
+  </tr>
+</tbody></table>
+
+
+</div>
+
+
+    <h1 class="post-title">The key differences between Python 2.7.x and Python 3.x with examples</h1>
+    <h2 class="post-title"></h2>
+
+
+
+
+
+
+    <div style="height: 15px;"></div>
+    <p class="post-meta">Jun 1, 2014 <br>by Sebastian Raschka</p>
+  </header>
+
+  <article class="post-content">
+    <p>Many beginning Python users are wondering with which version of Python they should start. My answer to this question is usually something along the lines “just go with the version your favorite tutorial was written in, and check out the differences later on.”</p>
+
+<p>But what if you are starting a new project and have the choice to pick? I would say there is currently no “right” or “wrong” as long as both Python 2.7.x and Python 3.x support the libraries that you are planning to use. However, it is worthwhile to have a look at the major differences between those two most popular versions of Python to avoid common pitfalls when writing the code for either one of them, or if you are planning to port your project.</p>
+
+<h4 id="sections">Sections</h4>
+
+<ul id="markdown-toc">
+  <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#sections" id="markdown-toc-sections">Sections</a></li>
+  <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#the-future-module" id="markdown-toc-the-future-module">The <code class="highlighter-rouge">__future__</code> module</a></li>
+  <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#the-print-function" id="markdown-toc-the-print-function">The print function</a>    <ul>
+      <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#python-2" id="markdown-toc-python-2">Python 2</a></li>
+      <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#python-3" id="markdown-toc-python-3">Python 3</a></li>
+    </ul>
+  </li>
+  <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#integer-division" id="markdown-toc-integer-division">Integer division</a>    <ul>
+      <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#python-2-1" id="markdown-toc-python-2-1">Python 2</a></li>
+      <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#python-3-1" id="markdown-toc-python-3-1">Python 3</a></li>
+    </ul>
+  </li>
+  <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#unicode" id="markdown-toc-unicode">Unicode</a>    <ul>
+      <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#python-2-2" id="markdown-toc-python-2-2">Python 2</a></li>
+      <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#python-3-2" id="markdown-toc-python-3-2">Python 3</a></li>
+    </ul>
+  </li>
+  <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#xrange" id="markdown-toc-xrange">xrange</a>    <ul>
+      <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#python-2-3" id="markdown-toc-python-2-3">Python 2</a></li>
+      <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#python-3-3" id="markdown-toc-python-3-3">Python 3</a></li>
+      <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#the-contains-method-for-range-objects-in-python-3" id="markdown-toc-the-contains-method-for-range-objects-in-python-3">The <code class="highlighter-rouge">__contains__</code> method for <code class="highlighter-rouge">range</code> objects in Python 3</a>        <ul>
+          <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#note-about-the-speed-differences-in-python-2-and-3" id="markdown-toc-note-about-the-speed-differences-in-python-2-and-3">Note about the speed differences in Python 2 and 3</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#raising-exceptions" id="markdown-toc-raising-exceptions">Raising exceptions</a>    <ul>
+      <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#python-2-4" id="markdown-toc-python-2-4">Python 2</a></li>
+      <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#python-3-4" id="markdown-toc-python-3-4">Python 3</a></li>
+    </ul>
+  </li>
+  <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#handling-exceptions" id="markdown-toc-handling-exceptions">Handling exceptions</a>    <ul>
+      <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#python-2-5" id="markdown-toc-python-2-5">Python 2</a></li>
+      <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#python-3-5" id="markdown-toc-python-3-5">Python 3</a></li>
+    </ul>
+  </li>
+  <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#the-next-function-and-next-method" id="markdown-toc-the-next-function-and-next-method">The next() function and .next() method</a>    <ul>
+      <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#python-2-6" id="markdown-toc-python-2-6">Python 2</a></li>
+      <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#python-3-6" id="markdown-toc-python-3-6">Python 3</a></li>
+    </ul>
+  </li>
+  <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#for-loop-variables-and-the-global-namespace-leak" id="markdown-toc-for-loop-variables-and-the-global-namespace-leak">For-loop variables and the global namespace leak</a>    <ul>
+      <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#python-2-7" id="markdown-toc-python-2-7">Python 2</a></li>
+      <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#python-3-7" id="markdown-toc-python-3-7">Python 3</a></li>
+    </ul>
+  </li>
+  <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#comparing-unorderable-types" id="markdown-toc-comparing-unorderable-types">Comparing unorderable types</a>    <ul>
+      <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#python-2-8" id="markdown-toc-python-2-8">Python 2</a></li>
+      <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#python-3-8" id="markdown-toc-python-3-8">Python 3</a></li>
+    </ul>
+  </li>
+  <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#parsing-user-inputs-via-input" id="markdown-toc-parsing-user-inputs-via-input">Parsing user inputs via input()</a>    <ul>
+      <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#python-2-9" id="markdown-toc-python-2-9">Python 2</a></li>
+      <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#python-3-9" id="markdown-toc-python-3-9">Python 3</a></li>
+    </ul>
+  </li>
+  <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#returning-iterable-objects-instead-of-lists" id="markdown-toc-returning-iterable-objects-instead-of-lists">Returning iterable objects instead of lists</a>    <ul>
+      <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#python-2-10" id="markdown-toc-python-2-10">Python 2</a></li>
+      <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#python-3-10" id="markdown-toc-python-3-10">Python 3</a></li>
+    </ul>
+  </li>
+  <li><a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#more-articles-about-python-2-and-python-3" id="markdown-toc-more-articles-about-python-2-and-python-3">More articles about Python 2 and Python 3</a></li>
+</ul>
+
+<h3 id="the-future-module">The <code class="highlighter-rouge">__future__</code> module</h3>
+
+<p>Python 3.x introduced some Python 2-incompatible keywords and features that can be imported via the in-built <code class="highlighter-rouge">__future__</code> module in Python 2. It is recommended to use <code class="highlighter-rouge">__future__</code> imports it if you are planning Python 3.x support for your code. For example, if we want Python 3.x’s integer division behavior in Python 2, we can import it via</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>from __future__ import division
+</code></pre>
+</div>
+
+<p>More features that can be imported from the <code class="highlighter-rouge">__future__</code> module are listed in the table below:</p>
+
+<table>
+<tbody><tr><th class="head">feature</th>
+<th class="head">optional in</th>
+<th class="head">mandatory in</th>
+<th class="head">effect</th>
+</tr>
+
+<tr><td>nested_scopes</td>
+<td>2.1.0b1</td>
+<td>2.2</td>
+<td><a href="http://www.python.org/dev/peps/pep-0227"><strong>PEP 227</strong></a>:
+<em>Statically Nested Scopes</em></td>
+</tr>
+<tr><td>generators</td>
+<td>2.2.0a1</td>
+<td>2.3</td>
+<td><a href="http://www.python.org/dev/peps/pep-0255"><strong>PEP 255</strong></a>:
+<em>Simple Generators</em></td>
+</tr>
+<tr><td>division</td>
+<td>2.2.0a2</td>
+<td>3.0</td>
+<td><a href="http://www.python.org/dev/peps/pep-0238"><strong>PEP 238</strong></a>:
+<em>Changing the Division Operator</em></td>
+</tr>
+<tr><td>absolute_import</td>
+<td>2.5.0a1</td>
+<td>3.0</td>
+<td><a href="http://www.python.org/dev/peps/pep-0328"><strong>PEP 328</strong></a>:
+<em>Imports: Multi-Line and Absolute/Relative</em></td>
+</tr>
+<tr><td>with_statement</td>
+<td>2.5.0a1</td>
+<td>2.6</td>
+<td><a href="http://www.python.org/dev/peps/pep-0343"><strong>PEP 343</strong></a>:
+<em>The “with” Statement</em></td>
+</tr>
+<tr><td>print_function</td>
+<td>2.6.0a2</td>
+<td>3.0</td>
+<td><a href="http://www.python.org/dev/peps/pep-3105"><strong>PEP 3105</strong></a>:
+<em>Make print a function</em></td>
+</tr>
+<tr><td>unicode_literals</td>
+<td>2.6.0a2</td>
+<td>3.0</td>
+<td><a href="http://www.python.org/dev/peps/pep-3112"><strong>PEP 3112</strong></a>:
+<em>Bytes literals in Python 3000</em></td>
+</tr>
+</tbody></table>
+
+<center>(Source: [https://docs.python.org/2/library/__future__.html](https://docs.python.org/2/library/__future__.html#module-__future__))</center>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">platform</span> <span class="kn">import</span> <span class="n">python_version</span>
+</code></pre>
+</div>
+
+<h2 id="the-print-function">The print function</h2>
+
+<p>Very trivial, and the change in the print-syntax is probably the most widely known change, but still it is worth mentioning: Python 2’s print statement has been replaced by the <code class="highlighter-rouge">print()</code> function, meaning that we have to wrap the object that we want to print in parantheses.</p>
+
+<p>Python 2 doesn’t have a problem with additional parantheses, but in contrast, Python 3 would raise a <code class="highlighter-rouge">SyntaxError</code> if we called the print function the Python 2-way without the parentheses.</p>
+
+<h4 id="python-2">Python 2</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span> <span class="s">'Python'</span><span class="p">,</span> <span class="n">python_version</span><span class="p">()</span>
+<span class="k">print</span> <span class="s">'Hello, World!'</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Hello, World!'</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">"text"</span><span class="p">,</span> <span class="p">;</span> <span class="k">print</span> <span class="s">'print more text on the same line'</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Python 2.7.6
+Hello, World!
+Hello, World!
+text print more text on the same line
+</code></pre>
+</div>
+
+<h4 id="python-3">Python 3</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">'Python'</span><span class="p">,</span> <span class="n">python_version</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Hello, World!'</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"some text,"</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s">""</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">' print more text on the same line'</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Python 3.4.1
+Hello, World!
+some text, print more text on the same line
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span> <span class="s">'Hello, World!'</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>  File "&lt;ipython-input-3-139a7c5835bd&gt;", line 1
+    print 'Hello, World!'
+                        ^
+SyntaxError: invalid syntax
+</code></pre>
+</div>
+
+<p><strong>Note:</strong></p>
+
+<p>Printing “Hello, World” above  via Python 2 looked quite “normal”. However, if we have multiple objects inside the parantheses, we will create a tuple, since <code class="highlighter-rouge">print</code> is a “statement” in Python 2, not a function call.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span> <span class="s">'Python'</span><span class="p">,</span> <span class="n">python_version</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'a'</span><span class="p">,</span> <span class="s">'b'</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">'a'</span><span class="p">,</span> <span class="s">'b'</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Python 2.7.7
+('a', 'b')
+a b
+</code></pre>
+</div>
+
+<h2 id="integer-division">Integer division</h2>
+
+<p>This change is particularly dangerous if you are porting code, or if you are executing Python 3 code in Python 2, since the change in integer-division behavior can often go unnoticed (it doesn’t raise a <code class="highlighter-rouge">SyntaxError</code>).<br>
+So, I still tend to use a <code class="highlighter-rouge">float(3)/2</code> or <code class="highlighter-rouge">3/2.0</code> instead of a <code class="highlighter-rouge">3/2</code> in my Python 3 scripts to save the Python 2 guys some trouble (and vice versa, I recommend a <code class="highlighter-rouge">from __future__ import division</code> in your Python 2 scripts).</p>
+
+<h4 id="python-2-1">Python 2</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span> <span class="s">'Python'</span><span class="p">,</span> <span class="n">python_version</span><span class="p">()</span>
+<span class="k">print</span> <span class="s">'3 / 2 ='</span><span class="p">,</span> <span class="mi">3</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="k">print</span> <span class="s">'3 // 2 ='</span><span class="p">,</span> <span class="mi">3</span> <span class="o">//</span> <span class="mi">2</span>
+<span class="k">print</span> <span class="s">'3 / 2.0 ='</span><span class="p">,</span> <span class="mi">3</span> <span class="o">/</span> <span class="mf">2.0</span>
+<span class="k">print</span> <span class="s">'3 // 2.0 ='</span><span class="p">,</span> <span class="mi">3</span> <span class="o">//</span> <span class="mf">2.0</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Python 2.7.6
+3 / 2 = 1
+3 // 2 = 1
+3 / 2.0 = 1.5
+3 // 2.0 = 1.0
+</code></pre>
+</div>
+
+<h4 id="python-3-1">Python 3</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">'Python'</span><span class="p">,</span> <span class="n">python_version</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'3 / 2 ='</span><span class="p">,</span> <span class="mi">3</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'3 // 2 ='</span><span class="p">,</span> <span class="mi">3</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'3 / 2.0 ='</span><span class="p">,</span> <span class="mi">3</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'3 // 2.0 ='</span><span class="p">,</span> <span class="mi">3</span> <span class="o">//</span> <span class="mf">2.0</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Python 3.4.1
+3 / 2 = 1.5
+3 // 2 = 1
+3 / 2.0 = 1.5
+3 // 2.0 = 1.0
+</code></pre>
+</div>
+
+<h2 id="unicode">Unicode</h2>
+
+<p>Python 2 has ASCII <code class="highlighter-rouge">str()</code> types, separate <code class="highlighter-rouge">unicode()</code>, but no <code class="highlighter-rouge">byte</code> type.</p>
+
+<p>Now, in Python 3, we finally have Unicode (utf-8) <code class="highlighter-rouge">str</code>ings, and 2 byte classes: <code class="highlighter-rouge">byte</code> and <code class="highlighter-rouge">bytearray</code>s.</p>
+
+<h4 id="python-2-2">Python 2</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span> <span class="s">'Python'</span><span class="p">,</span> <span class="n">python_version</span><span class="p">()</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Python 2.7.6
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span> <span class="nb">type</span><span class="p">(</span><span class="nb">unicode</span><span class="p">(</span><span class="s">'this is like a python3 str type'</span><span class="p">))</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;type 'unicode'&gt;
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span> <span class="nb">type</span><span class="p">(</span><span class="n">b</span><span class="s">'byte type does not exist'</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;type 'str'&gt;
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span> <span class="s">'they are really'</span> <span class="o">+</span> <span class="n">b</span><span class="s">' the same'</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>they are really the same
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span> <span class="nb">type</span><span class="p">(</span><span class="nb">bytearray</span><span class="p">(</span><span class="n">b</span><span class="s">'bytearray oddly does exist though'</span><span class="p">))</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;type 'bytearray'&gt;
+</code></pre>
+</div>
+
+<h4 id="python-3-2">Python 3</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">'Python'</span><span class="p">,</span> <span class="n">python_version</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'strings are now utf-8 </span><span class="se">\u03BC</span><span class="s">nico</span><span class="se">\u0394</span><span class="s">é!'</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Python 3.4.1
+strings are now utf-8 μnicoΔé!
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">'Python'</span><span class="p">,</span> <span class="n">python_version</span><span class="p">(),</span> <span class="n">end</span><span class="o">=</span><span class="s">""</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">' has'</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">b</span><span class="s">' bytes for storing data'</span><span class="p">))</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Python 3.4.1 has &lt;class 'bytes'&gt;
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">'and Python'</span><span class="p">,</span> <span class="n">python_version</span><span class="p">(),</span> <span class="n">end</span><span class="o">=</span><span class="s">""</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">' also has'</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="nb">bytearray</span><span class="p">(</span><span class="n">b</span><span class="s">'bytearrays'</span><span class="p">)))</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>and Python 3.4.1 also has &lt;class 'bytearray'&gt;
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="s">'note that we cannot add a string'</span> <span class="o">+</span> <span class="n">b</span><span class="s">'bytes for data'</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+
+&lt;ipython-input-13-d3e8942ccf81&gt; in &lt;module&gt;()
+----&gt; 1 'note that we cannot add a string' + b'bytes for data'
+
+
+TypeError: Can't convert 'bytes' object to str implicitly
+</code></pre>
+</div>
+
+<h2 id="xrange">xrange</h2>
+
+<p>The usage of <code class="highlighter-rouge">xrange()</code> is very popular in Python 2.x for creating an iterable object, e.g., in a for-loop or list/set-dictionary-comprehension.<br>
+The behavior was quite similar to a generator (i.e., “lazy evaluation”), but here the xrange-iterable is not exhaustible - meaning, you could iterate over it infinitely.</p>
+
+<p>Thanks to its “lazy-evaluation”, the advantage of the regular <code class="highlighter-rouge">range()</code> is that <code class="highlighter-rouge">xrange()</code> is generally faster if you have to iterate over it only once (e.g., in a for-loop). However, in contrast to 1-time iterations, it is not recommended if you repeat the iteration multiple times, since the generation happens every time from scratch!</p>
+
+<p>In Python 3, the <code class="highlighter-rouge">range()</code> was implemented like the <code class="highlighter-rouge">xrange()</code> function so that a dedicated <code class="highlighter-rouge">xrange()</code> function does not exist anymore (<code class="highlighter-rouge">xrange()</code> raises a <code class="highlighter-rouge">NameError</code> in Python 3).</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">timeit</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="k">def</span> <span class="nf">test_range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+<span class="k">def</span> <span class="nf">test_xrange</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">pass</span>    
+</code></pre>
+</div>
+
+<h4 id="python-2-3">Python 2</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span> <span class="s">'Python'</span><span class="p">,</span> <span class="n">python_version</span><span class="p">()</span>
+
+<span class="k">print</span> <span class="s">'</span><span class="se">\n</span><span class="s">timing range()'</span>
+<span class="o">%</span><span class="n">timeit</span> <span class="n">test_range</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="s">'</span><span class="se">\n\n</span><span class="s">timing xrange()'</span>
+<span class="o">%</span><span class="n">timeit</span> <span class="n">test_xrange</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Python 2.7.6
+
+timing range()
+1000 loops, best of 3: 433 µs per loop
+
+
+timing xrange()
+1000 loops, best of 3: 350 µs per loop
+</code></pre>
+</div>
+
+<h4 id="python-3-3">Python 3</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">'Python'</span><span class="p">,</span> <span class="n">python_version</span><span class="p">())</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">timing range()'</span><span class="p">)</span>
+<span class="o">%</span><span class="n">timeit</span> <span class="n">test_range</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Python 3.4.1
+
+timing range()
+1000 loops, best of 3: 520 µs per loop
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="nb">xrange</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>---------------------------------------------------------------------------
+NameError                                 Traceback (most recent call last)
+
+&lt;ipython-input-5-5d8f9b79ea70&gt; in &lt;module&gt;()
+----&gt; 1 print(xrange(10))
+
+
+NameError: name 'xrange' is not defined
+</code></pre>
+</div>
+
+<p><a id="contains"></a></p>
+
+<h3 id="the-contains-method-for-range-objects-in-python-3">The <code class="highlighter-rouge">__contains__</code> method for <code class="highlighter-rouge">range</code> objects in Python 3</h3>
+
+<p>Another thing worth mentioning is that <code class="highlighter-rouge">range</code> got a “new” <code class="highlighter-rouge">__contains__</code> method in Python 3.x (thanks to <a href="https://github.com/yegle">Yuchen Ying</a>, who pointed this out).  The <code class="highlighter-rouge">__contains__</code> method can speedup “look-ups” in Python 3.x <code class="highlighter-rouge">range</code> significantly for integer and Boolean types.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="mi">10000000</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">val_in_range</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">val_in_xrange</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">'Python'</span><span class="p">,</span> <span class="n">python_version</span><span class="p">())</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">val_in_range</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="bp">True</span><span class="p">)</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">val_in_range</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">//</span><span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="bp">True</span><span class="p">)</span>
+<span class="o">%</span><span class="n">timeit</span> <span class="n">val_in_range</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+<span class="o">%</span><span class="n">timeit</span> <span class="n">val_in_range</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">//</span><span class="mi">2</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Python 3.4.1
+1 loops, best of 3: 742 ms per loop
+1000000 loops, best of 3: 1.19 µs per loop
+</code></pre>
+</div>
+
+<p>Based on the <code class="highlighter-rouge">timeit</code> results above, you see that the execution for the “look up” was about 60,000 faster when it was of an integer type rather than a float. However, since Python 2.x’s <code class="highlighter-rouge">range</code> or <code class="highlighter-rouge">xrange</code> doesn’t have a <code class="highlighter-rouge">__contains__</code> method, the “look-up speed” wouldn’t be that much different for integers or floats:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span> <span class="s">'Python'</span><span class="p">,</span> <span class="n">python_version</span><span class="p">()</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">val_in_xrange</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">/</span><span class="mf">2.0</span><span class="p">)</span> <span class="o">==</span> <span class="bp">True</span><span class="p">)</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">val_in_xrange</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="bp">True</span><span class="p">)</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">val_in_range</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="bp">True</span><span class="p">)</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">val_in_range</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">//</span><span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="bp">True</span><span class="p">)</span>
+<span class="o">%</span><span class="n">timeit</span> <span class="n">val_in_xrange</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">/</span><span class="mf">2.0</span><span class="p">)</span>
+<span class="o">%</span><span class="n">timeit</span> <span class="n">val_in_xrange</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+<span class="o">%</span><span class="n">timeit</span> <span class="n">val_in_range</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">/</span><span class="mf">2.0</span><span class="p">)</span>
+<span class="o">%</span><span class="n">timeit</span> <span class="n">val_in_range</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Python 2.7.7
+1 loops, best of 3: 285 ms per loop
+1 loops, best of 3: 179 ms per loop
+1 loops, best of 3: 658 ms per loop
+1 loops, best of 3: 556 ms per loop
+</code></pre>
+</div>
+
+<p>Below the “proofs” that the <code class="highlighter-rouge">__contain__</code> method wasn’t added to Python 2.x yet:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">'Python'</span><span class="p">,</span> <span class="n">python_version</span><span class="p">())</span>
+<span class="nb">range</span><span class="o">.</span><span class="n">__contains__</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Python 3.4.1
+
+
+
+
+
+&lt;slot wrapper '__contains__' of 'range' objects&gt;
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span> <span class="s">'Python'</span><span class="p">,</span> <span class="n">python_version</span><span class="p">()</span>
+<span class="nb">range</span><span class="o">.</span><span class="n">__contains__</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Python 2.7.7
+
+
+
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+
+&lt;ipython-input-7-05327350dafb&gt; in &lt;module&gt;()
+      1 print 'Python', python_version()
+----&gt; 2 range.__contains__
+
+
+AttributeError: 'builtin_function_or_method' object has no attribute '__contains__'
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span> <span class="s">'Python'</span><span class="p">,</span> <span class="n">python_version</span><span class="p">()</span>
+<span class="nb">xrange</span><span class="o">.</span><span class="n">__contains__</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Python 2.7.7
+
+
+
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+
+&lt;ipython-input-8-7d1a71bfee8e&gt; in &lt;module&gt;()
+      1 print 'Python', python_version()
+----&gt; 2 xrange.__contains__
+
+
+AttributeError: type object 'xrange' has no attribute '__contains__'
+</code></pre>
+</div>
+
+<h4 id="note-about-the-speed-differences-in-python-2-and-3">Note about the speed differences in Python 2 and 3</h4>
+
+<p>Some people pointed out the speed difference between Python 3’s <code class="highlighter-rouge">range()</code> and Python2’s <code class="highlighter-rouge">xrange()</code>. Since they are implemented the same way one would expect the same speed. However the difference here just comes from the fact that Python 3 generally tends to run slower than Python 2.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">test_while</span><span class="p">():</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">20000</span><span class="p">:</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">'Python'</span><span class="p">,</span> <span class="n">python_version</span><span class="p">())</span>
+<span class="o">%</span><span class="n">timeit</span> <span class="n">test_while</span><span class="p">()</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Python 3.4.1
+100 loops, best of 3: 2.68 ms per loop
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span> <span class="s">'Python'</span><span class="p">,</span> <span class="n">python_version</span><span class="p">()</span>
+<span class="o">%</span><span class="n">timeit</span> <span class="n">test_while</span><span class="p">()</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Python 2.7.6
+1000 loops, best of 3: 1.72 ms per loop
+</code></pre>
+</div>
+
+<h2 id="raising-exceptions">Raising exceptions</h2>
+
+<p>Where Python 2 accepts both notations, the ‘old’ and the ‘new’ syntax, Python 3 chokes (and raises a <code class="highlighter-rouge">SyntaxError</code> in turn) if we don’t enclose the exception argument in parentheses:</p>
+
+<h4 id="python-2-4">Python 2</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span> <span class="s">'Python'</span><span class="p">,</span> <span class="n">python_version</span><span class="p">()</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Python 2.7.6
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">raise</span> <span class="nb">IOError</span><span class="p">,</span> <span class="s">"file error"</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>---------------------------------------------------------------------------
+IOError                                   Traceback (most recent call last)
+
+&lt;ipython-input-8-25f049caebb0&gt; in &lt;module&gt;()
+----&gt; 1 raise IOError, "file error"
+
+
+IOError: file error
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">raise</span> <span class="nb">IOError</span><span class="p">(</span><span class="s">"file error"</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>---------------------------------------------------------------------------
+IOError                                   Traceback (most recent call last)
+
+&lt;ipython-input-9-6f1c43f525b2&gt; in &lt;module&gt;()
+----&gt; 1 raise IOError("file error")
+
+
+IOError: file error
+</code></pre>
+</div>
+
+<h4 id="python-3-4">Python 3</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">'Python'</span><span class="p">,</span> <span class="n">python_version</span><span class="p">())</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Python 3.4.1
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">raise</span> <span class="nb">IOError</span><span class="p">,</span> <span class="s">"file error"</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>  File "&lt;ipython-input-10-25f049caebb0&gt;", line 1
+    raise IOError, "file error"
+                 ^
+SyntaxError: invalid syntax
+</code></pre>
+</div>
+
+<p>The proper way to raise an exception in Python 3:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">'Python'</span><span class="p">,</span> <span class="n">python_version</span><span class="p">())</span>
+<span class="k">raise</span> <span class="nb">IOError</span><span class="p">(</span><span class="s">"file error"</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Python 3.4.1
+
+
+
+---------------------------------------------------------------------------
+OSError                                   Traceback (most recent call last)
+
+&lt;ipython-input-11-c350544d15da&gt; in &lt;module&gt;()
+      1 print('Python', python_version())
+----&gt; 2 raise IOError("file error")
+
+
+OSError: file error
+</code></pre>
+</div>
+
+<h2 id="handling-exceptions">Handling exceptions</h2>
+
+<p>Also the handling of exceptions has slightly changed in Python 3. In Python 3 we have to use the “<code class="highlighter-rouge">as</code>” keyword now</p>
+
+<h4 id="python-2-5">Python 2</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span> <span class="s">'Python'</span><span class="p">,</span> <span class="n">python_version</span><span class="p">()</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">let_us_cause_a_NameError</span>
+<span class="k">except</span> <span class="nb">NameError</span><span class="p">,</span> <span class="n">err</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">err</span><span class="p">,</span> <span class="s">'--&gt; our error message'</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Python 2.7.6
+name 'let_us_cause_a_NameError' is not defined --&gt; our error message
+</code></pre>
+</div>
+
+<h4 id="python-3-5">Python 3</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">'Python'</span><span class="p">,</span> <span class="n">python_version</span><span class="p">())</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">let_us_cause_a_NameError</span>
+<span class="k">except</span> <span class="nb">NameError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="s">'--&gt; our error message'</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Python 3.4.1
+name 'let_us_cause_a_NameError' is not defined --&gt; our error message
+</code></pre>
+</div>
+
+<p><a id="The-next-function-and-next-method"></a></p>
+
+<h2 id="the-next-function-and-next-method">The next() function and .next() method</h2>
+
+<p>Since <code class="highlighter-rouge">next()</code> (<code class="highlighter-rouge">.next()</code>) is such a commonly used function (method), this is another syntax change (or rather change in implementation) that is worth mentioning: where you can use both the function and method syntax in Python 2.7.5, the <code class="highlighter-rouge">next()</code> function is all that remains in Python 3 (calling the <code class="highlighter-rouge">.next()</code> method raises an <code class="highlighter-rouge">AttributeError</code>).</p>
+
+<h4 id="python-2-6">Python 2</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span> <span class="s">'Python'</span><span class="p">,</span> <span class="n">python_version</span><span class="p">()</span>
+
+<span class="n">my_generator</span> <span class="o">=</span> <span class="p">(</span><span class="n">letter</span> <span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="s">'abcdefg'</span><span class="p">)</span>
+
+<span class="nb">next</span><span class="p">(</span><span class="n">my_generator</span><span class="p">)</span>
+<span class="n">my_generator</span><span class="o">.</span><span class="nb">next</span><span class="p">()</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Python 2.7.6
+
+
+
+
+
+'b'
+</code></pre>
+</div>
+
+<h4 id="python-3-6">Python 3</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">'Python'</span><span class="p">,</span> <span class="n">python_version</span><span class="p">())</span>
+
+<span class="n">my_generator</span> <span class="o">=</span> <span class="p">(</span><span class="n">letter</span> <span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="s">'abcdefg'</span><span class="p">)</span>
+
+<span class="nb">next</span><span class="p">(</span><span class="n">my_generator</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Python 3.4.1
+
+
+
+
+
+'a'
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">my_generator</span><span class="o">.</span><span class="nb">next</span><span class="p">()</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+
+&lt;ipython-input-14-125f388bb61b&gt; in &lt;module&gt;()
+----&gt; 1 my_generator.next()
+
+
+AttributeError: 'generator' object has no attribute 'next'
+</code></pre>
+</div>
+
+<h2 id="for-loop-variables-and-the-global-namespace-leak">For-loop variables and the global namespace leak</h2>
+
+<p>Good news is: In Python 3.x for-loop variables don’t leak into the global namespace anymore!</p>
+
+<p>This goes back to a change that was made in Python 3.x and is described in <a href="https://docs.python.org/3/whatsnew/3.0.html">What’s New In Python 3.0</a> as follows:</p>
+
+<p>“List comprehensions no longer support the syntactic form <code class="highlighter-rouge">[... for var in item1, item2, ...]</code>. Use <code class="highlighter-rouge">[... for var in (item1, item2, ...)]</code> instead. Also note that list comprehensions have different semantics: they are closer to syntactic sugar for a generator expression inside a <code class="highlighter-rouge">list()</code> constructor, and in particular the loop control variables are no longer leaked into the surrounding scope.”</p>
+
+<h4 id="python-2-7">Python 2</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span> <span class="s">'Python'</span><span class="p">,</span> <span class="n">python_version</span><span class="p">()</span>
+
+<span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">print</span> <span class="s">'before: i ='</span><span class="p">,</span> <span class="n">i</span>
+
+<span class="k">print</span> <span class="s">'comprehension: '</span><span class="p">,</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span>
+
+<span class="k">print</span> <span class="s">'after: i ='</span><span class="p">,</span> <span class="n">i</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Python 2.7.6
+before: i = 1
+comprehension:  [0, 1, 2, 3, 4]
+after: i = 4
+</code></pre>
+</div>
+
+<h4 id="python-3-7">Python 3</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">'Python'</span><span class="p">,</span> <span class="n">python_version</span><span class="p">())</span>
+
+<span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'before: i ='</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">'comprehension:'</span><span class="p">,</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)])</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">'after: i ='</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Python 3.4.1
+before: i = 1
+comprehension: [0, 1, 2, 3, 4]
+after: i = 1
+</code></pre>
+</div>
+
+<h2 id="comparing-unorderable-types">Comparing unorderable types</h2>
+
+<p>Another nice change in Python 3 is that a <code class="highlighter-rouge">TypeError</code> is raised as warning if we try to compare unorderable types.</p>
+
+<h4 id="python-2-8">Python 2</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span> <span class="s">'Python'</span><span class="p">,</span> <span class="n">python_version</span><span class="p">()</span>
+<span class="k">print</span> <span class="s">"[1, 2] &gt; 'foo' = "</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">&gt;</span> <span class="s">'foo'</span>
+<span class="k">print</span> <span class="s">"(1, 2) &gt; 'foo' = "</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&gt;</span> <span class="s">'foo'</span>
+<span class="k">print</span> <span class="s">"[1, 2] &gt; (1, 2) = "</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">&gt;</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Python 2.7.6
+[1, 2] &gt; 'foo' =  False
+(1, 2) &gt; 'foo' =  True
+[1, 2] &gt; (1, 2) =  False
+</code></pre>
+</div>
+
+<h4 id="python-3-8">Python 3</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">'Python'</span><span class="p">,</span> <span class="n">python_version</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"[1, 2] &gt; 'foo' = "</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">&gt;</span> <span class="s">'foo'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"(1, 2) &gt; 'foo' = "</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&gt;</span> <span class="s">'foo'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"[1, 2] &gt; (1, 2) = "</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">&gt;</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Python 3.4.1
+
+
+
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+
+&lt;ipython-input-16-a9031729f4a0&gt; in &lt;module&gt;()
+      1 print('Python', python_version())
+----&gt; 2 print("[1, 2] &gt; 'foo' = ", [1, 2] &gt; 'foo')
+      3 print("(1, 2) &gt; 'foo' = ", (1, 2) &gt; 'foo')
+      4 print("[1, 2] &gt; (1, 2) = ", [1, 2] &gt; (1, 2))
+
+
+TypeError: unorderable types: list() &gt; str()
+</code></pre>
+</div>
+
+<p><a id="Parsing-user-inputs-via-input"></a></p>
+
+<h2 id="parsing-user-inputs-via-input">Parsing user inputs via input()</h2>
+
+<p>Fortunately, the <code class="highlighter-rouge">input()</code> function was fixed in Python 3 so that it always stores the user inputs as <code class="highlighter-rouge">str</code> objects. In order to avoid the dangerous behavior in Python 2 to read in other types than <code class="highlighter-rouge">strings</code>, we have to use <code class="highlighter-rouge">raw_input()</code> instead.</p>
+
+<h4 id="python-2-9">Python 2</h4>
+
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Python <span style="color: #6600EE; font-weight: bold">2.7</span><span style="color: #333333">.</span><span style="color: #0000DD; font-weight: bold">6</span>
+[GCC <span style="color: #6600EE; font-weight: bold">4.0</span><span style="color: #333333">.</span><span style="color: #0000DD; font-weight: bold">1</span> (Apple Inc<span style="color: #333333">.</span> build <span style="color: #0000DD; font-weight: bold">5493</span>)] on darwin
+Type <span style="background-color: #fff0f0">"help"</span>, <span style="background-color: #fff0f0">"copyright"</span>, <span style="background-color: #fff0f0">"credits"</span> <span style="color: #000000; font-weight: bold">or</span> <span style="background-color: #fff0f0">"license"</span> <span style="color: #008800; font-weight: bold">for</span> more information<span style="color: #333333">.</span>
+
+<span style="color: #333333">&gt;&gt;&gt;</span> my_input <span style="color: #333333">=</span> <span style="color: #007020">input</span>(<span style="background-color: #fff0f0">'enter a number: '</span>)
+
+enter a number: <span style="color: #0000DD; font-weight: bold">123</span>
+
+<span style="color: #333333">&gt;&gt;&gt;</span> <span style="color: #007020">type</span>(my_input)
+<span style="color: #333333">&lt;</span><span style="color: #007020">type</span> <span style="background-color: #fff0f0">'int'</span><span style="color: #333333">&gt;</span>
+
+<span style="color: #333333">&gt;&gt;&gt;</span> my_input <span style="color: #333333">=</span> raw_input(<span style="background-color: #fff0f0">'enter a number: '</span>)
+
+enter a number: <span style="color: #0000DD; font-weight: bold">123</span>
+
+<span style="color: #333333">&gt;&gt;&gt;</span> <span style="color: #007020">type</span>(my_input)
+<span style="color: #333333">&lt;</span><span style="color: #007020">type</span> <span style="background-color: #fff0f0">'str'</span><span style="color: #333333">&gt;</span>
+</pre></div>
+
+<h4 id="python-3-9">Python 3</h4>
+
+<!-- HTML generated using hilite.me -->
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Python <span style="color: #6600EE; font-weight: bold">3.4</span><span style="color: #333333">.</span><span style="color: #0000DD; font-weight: bold">1</span>
+[GCC <span style="color: #6600EE; font-weight: bold">4.2</span><span style="color: #333333">.</span><span style="color: #0000DD; font-weight: bold">1</span> (Apple Inc<span style="color: #333333">.</span> build <span style="color: #0000DD; font-weight: bold">5577</span>)] on darwin
+Type <span style="background-color: #fff0f0">"help"</span>, <span style="background-color: #fff0f0">"copyright"</span>, <span style="background-color: #fff0f0">"credits"</span> <span style="color: #000000; font-weight: bold">or</span> <span style="background-color: #fff0f0">"license"</span> <span style="color: #008800; font-weight: bold">for</span> more information<span style="color: #333333">.</span>
+
+<span style="color: #333333">&gt;&gt;&gt;</span> my_input <span style="color: #333333">=</span> <span style="color: #007020">input</span>(<span style="background-color: #fff0f0">'enter a number: '</span>)
+
+enter a number: <span style="color: #0000DD; font-weight: bold">123</span>
+
+<span style="color: #333333">&gt;&gt;&gt;</span> <span style="color: #007020">type</span>(my_input)
+<span style="color: #333333">&lt;</span><span style="color: #008800; font-weight: bold">class</span> <span style="color: #FF0000; background-color: #FFAAAA">'</span><span style="color: #BB0066; font-weight: bold">str</span><span style="background-color: #fff0f0">'&gt;</span>
+</pre></div>
+
+<h2 id="returning-iterable-objects-instead-of-lists">Returning iterable objects instead of lists</h2>
+
+<p>As we have already seen in the <a href="http://sebastianraschka.com/Articles/2014_python_2_3_key_diff.html#xrange"><code class="highlighter-rouge">xrange</code></a> section, some functions and methods return iterable objects in Python 3 now  - instead of lists in Python 2.</p>
+
+<p>Since we usually iterate over those only once anyway, I think this change makes a lot of sense to save memory. However, it is also possible - in contrast to generators - to iterate over those multiple times if needed, it is aonly not so efficient.</p>
+
+<p>And for those cases where we really need the <code class="highlighter-rouge">list</code>-objects, we can simply convert the iterable object into a <code class="highlighter-rouge">list</code> via the <code class="highlighter-rouge">list()</code> function.</p>
+
+<h4 id="python-2-10">Python 2</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span> <span class="s">'Python'</span><span class="p">,</span> <span class="n">python_version</span><span class="p">()</span>
+
+<span class="k">print</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="k">print</span> <span class="nb">type</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Python 2.7.6
+[0, 1, 2]
+&lt;type 'list'&gt;
+</code></pre>
+</div>
+
+<h4 id="python-3-10">Python 3</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">'Python'</span><span class="p">,</span> <span class="n">python_version</span><span class="p">())</span>
+
+<span class="k">print</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)))</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)))</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Python 3.4.1
+range(0, 3)
+&lt;class 'range'&gt;
+[0, 1, 2]
+</code></pre>
+</div>
+
+<p><strong>Some more commonly used functions and methods that don’t return lists anymore in Python 3:</strong></p>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">zip()</code></p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">map()</code></p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">filter()</code></p>
+  </li>
+  <li>
+    <p>dictionary’s <code class="highlighter-rouge">.keys()</code> method</p>
+  </li>
+  <li>
+    <p>dictionary’s <code class="highlighter-rouge">.values()</code> method</p>
+  </li>
+  <li>
+    <p>dictionary’s <code class="highlighter-rouge">.items()</code> method</p>
+  </li>
+</ul>
+
+<h2 id="more-articles-about-python-2-and-python-3">More articles about Python 2 and Python 3</h2>
+
+<p>Here is a list of some good articles concerning Python 2 and 3 that I would recommend as a follow-up.</p>
+
+<p><strong>// Porting to Python 3</strong></p>
+
+<ul>
+  <li>
+    <p><a href="https://wiki.python.org/moin/Python2orPython3">Should I use Python 2 or Python 3 for my development activity?</a></p>
+  </li>
+  <li>
+    <p><a href="https://docs.python.org/3.0/whatsnew/3.0.html">What’s New In Python 3.0</a></p>
+  </li>
+  <li>
+    <p><a href="http://python3porting.com/differences.html">Porting to Python 3</a></p>
+  </li>
+  <li>
+    <p><a href="https://docs.python.org/3/howto/pyporting.html">Porting Python 2 Code to Python 3</a></p>
+  </li>
+  <li>
+    <p><a href="http://nothingbutsnark.svbtle.com/my-view-on-the-current-state-of-python-3">How keep Python 3 moving forward</a></p>
+  </li>
+</ul>
+
+<p><strong>// Pro and anti Python 3</strong></p>
+
+<ul>
+  <li>
+    <p><a href="http://asmeurer.github.io/python3-presentation/slides.html#1">10 awesome features of Python that you can’t use because you refuse to upgrade to Python 3</a></p>
+  </li>
+  <li>
+    <p><a href="http://lucumr.pocoo.org/2014/5/12/everything-about-unicode/">Everything you did not want to know about Unicode in Python 3</a></p>
+  </li>
+  <li>
+    <p><a href="https://medium.com/@deliciousrobots/5d2ad703365d/">Python 3 is killing Python</a></p>
+  </li>
+  <li>
+    <p><a href="https://medium.com/p/2a7af4788b10">Python 3 can revive Python</a></p>
+  </li>
+  <li>
+    <p><a href="http://sealedabstract.com/rants/python-3-is-fine/">Python 3 is fine</a></p>
+  </li>
+</ul>
+
+  </article>
+
+
+</div>
+
+<!-- Disqus Comments -->
+<div class="row disqus">
+  <div class="col-md-8">
+      <div id="disqus_thread"><iframe id="dsq-app2" name="dsq-app2" allowtransparency="true" frameborder="0" scrolling="no" tabindex="0" title="Disqus" width="100%" src="./The key differences between Python 2.7.x and Python 3.x with examples_files/saved_resource.html" style="width: 1px !important; min-width: 100% !important; border: none !important; overflow: hidden !important; height: 1749px !important;" horizontalscrolling="no" verticalscrolling="no"></iframe></div>
+      <script type="text/javascript">
+          var disqus_shortname = 'sebastianraschka'; // required: replace example with your forum shortname
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+              var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+              dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+              (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+      </script>
+      <noscript>Please enable JavaScript to view the &lt;a href="http://disqus.com/?ref_noscript"&gt;comments powered by Disqus.&lt;/a&gt;</noscript>
+  </div>
+</div>
+
+
+
+<script src="./The key differences between Python 2.7.x and Python 3.x with examples_files/jsapi" type="text/javascript"></script>
+<script type="text/javascript"> google.load('search', '1',
+{language : 'en'}); google.setOnLoadCallback(function() {
+ var customSearchControl = new
+ google.search.CustomSearchControl('014864919068820376681:zdkgmsqueag');
+ customSearchControl.setResultSetSize(google.search.Search.FILTERED_CSE_RESULTSET);
+ var options = new google.search.DrawOptions();
+ options.setAutoComplete(true);
+ customSearchControl.draw('cse', options); }, true);
+</script><script src="./The key differences between Python 2.7.x and Python 3.x with examples_files/saved_resource" type="text/javascript"></script><link href="./The key differences between Python 2.7.x and Python 3.x with examples_files/default+en.css" type="text/css" rel="stylesheet"><script src="./The key differences between Python 2.7.x and Python 3.x with examples_files/default+en.I.js" type="text/javascript"></script>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+
+
+    <div class="footer-col-wrapper">
+
+
+    <div class="footer-col  social-col">
+
+
+
+      
+          <a href="mailto:mail@sebastianraschka.com"><span><i class="fa fa-envelope fa-2x"></i> </span></a>
+      
+
+      
+        <a href="https://twitter.com/rasbt"> <span><i class="fa fa-twitter fa-2x"></i> </span></a>
+      
+
+      
+            <a href="https://github.com/rasbt"><span><i class="fa fa-github fa-2x"></i> </span></a>
+      
+
+      
+          <a href="https://linkedin.com/in/sebastianraschka"><span><i class="fa fa-linkedin fa-2x"></i> </span></a>
+      
+
+      
+          <a href="https://plus.google.com/u/0/+SebastianRaschka"><span><i class="fa fa-google-plus fa-2x"></i> </span></a>
+      
+
+      
+        <a href="https://www.quora.com/profile/Sebastian-Raschka-1"><span class="fa fa-2x" style="font-family: Georgia, serif; margin-left:5px;"><strong>Q</strong></span></a>
+      
+
+  </div>
+
+    <div class="footer-col  copyright-col">
+      <p>© 2013-2016 Sebastian Raschka</p>
+    </div>
+
+
+  </div>
+
+
+
+</div></footer>
+
+    <script type="text/javascript">
+         var _gaq = _gaq || [];
+         _gaq.push(['_setAccount', 'UA-38457794-1']);
+         _gaq.push(['_trackPageview']);
+         (function() {
+           var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+           ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+           var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+         })();
+ </script>
+
+
+<script type="text/javascript">
+function recordOutboundLink(link, category, action) {
+ try {
+   var pageTracker=_gat._getTracker("UA-38457794-1");
+   pageTracker._trackEvent(category, action);
+   setTimeout('document.location = "' + link.href + '"', 100)
+ }catch(err){}
+}
+</script>
+
+  
+
+  <script src="./The key differences between Python 2.7.x and Python 3.x with examples_files/anchor.min.js" type="text/javascript"></script>
+  <script>
+    var selector = 'h2, h3, h4, h5, h6';
+    /*
+    anchors.options = {
+      icon: '#',
+      visible: 'always',
+      placement: 'left',
+      class: 'bb-anchor'
+    }
+    */
+    anchors.add(selector);
+  </script>
+
+
+
+<table cellspacing="0" cellpadding="0" class="gstl_50 gssb_c" style="width: 104px; display: none; top: 182px; position: absolute; left: 265px;"><tbody><tr><td class="gssb_f"></td><td class="gssb_e" style="width: 100%;"></td></tr></tbody></table></body></html>
