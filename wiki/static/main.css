@@ -1,0 +1,58 @@
+body {
+    position: relative;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 14px;
+
+    width: 800px;
+    margin: 0 auto;
+ 
+    padding: 10px;
+    color: #333;
+}
+.up{
+    position:absolute;
+    right:10px;
+}
+.edit-area {
+    display: inline-block;
+    font-size: 13px;
+    color: gray;
+    margin-right: 10px;
+}
+
+.login-area {
+    display: inline-block;
+    font-size: 13px;
+    color: gray;
+}
+
+.post{
+    font-size: 17px;
+    font-family: Arial;
+    position: absolute;
+    top: 40px;
+    left: 100px;
+    width: 640px;
+
+}
+textarea{
+    width: 640px;
+    height:400px;
+    margin: auto;
+    border: 1px solid black;
+}
+
+
+.login-link {
+    color: gray;
+    text-decoration: none;
+}
+
+.login-link:visited {
+    color: gray;
+}
+
+.login-link:hover {
+    text-decoration: underline;
+}
+

@@ -97,7 +97,7 @@ class User(db.Model):
     def by_name(cls, name):
         logging.info('in by_name() username is %s' % name)
         u = User.all().filter('name =', name).get()
-        # error here, filter('name=', name) should be filter('name =', name). otherwise 'name=' will be treated as on word
+        # error here, filter('name=', name) should be filter('name =', name). otherwise 'name=' will be treated as one word
         return u
     @classmethod
     def by_id(cls, uid): # still not clear
