@@ -163,6 +163,7 @@ class NewPost(BlogHandler):
         content = self.request.get('content')
 
         if subject and content:
+            logging.info(content)
             p = Post(parent = blog_key(), subject = subject, content = content)
             p.put()
             self.redirect('/blog/%s' % str(p.key().id()))
