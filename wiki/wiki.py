@@ -89,13 +89,13 @@ class BlogHandler(webapp2.RequestHandler):
         cookie_val = ''
         if val:
             cookie_val = make_secure_val(val)
-        sels.response.headers.add_header('Set-Cookie',
+        self.response.headers.add_header('Set-Cookie',
                                          '%s=%s' % (cookie_name, cookie_val))
     
     def read_cookie(self, cookie_name):
-        cookie_val = self.request.cookie.get(cookie_name)
+        cookie_val = self.request.cookies.get(cookie_name)
         return cookie_val and check_secure_val(cookie_val)
-            
+         
     def set_cookie(self, user):
         self.set_secure_cookie('user_id', int(user.key().id()))
     
@@ -103,11 +103,14 @@ class BlogHandler(webapp2.RequestHandler):
         self.set_secure_cookie('user_id', '')
     
     def validate(self):
-        cookie_val = self.read_cookie('user_id')
-        if cookie_val and check_secure_val:
-            user_id = cookie_val.split('|')[0]
+        user_id = self.read_cookie('user_id')
+        log_out('user_id', user_id)
+        if user_id:
             return User.by_id(int(user_id))
-    
+    def initialize(self, *a, **kw):
+        webapp2.RequestHandler.initialize(self, *a, **kw)
+        uid = self.read_cookie('user_id')
+        self.user = uid and User.by_id(int(uid))
 
 
 class WikiPage(BlogHandler):
@@ -124,31 +127,34 @@ class WikiPage(BlogHandler):
             
 class EditPage(BlogHandler):
     def get(self, post_id):
-        self.p_id = post_id
-        q = db.GqlQuery("SELECT * FROM Post WHERE post_id = :1", post_id)
-        post = q.get()
-        if post and post.content:
-            logging.info(post.content)
-            self.render('editpage.html', p=post)
-        else:
-            self.render('editpage.html', p=None)
-    def post(self, post_id):
-        content = self.request.get('content')
-        q = db.GqlQuery("SELECT * FROM Post WHERE post_id = :1", post_id)
-        post = q.get()
-        if content:
-            content = render_text(content)
-            if post:
-                post.content = content
-                post.put()
+        user = self.validate()
+        if user:
+            self.p_id = post_id
+            q = db.GqlQuery("SELECT * FROM Post WHERE post_id = :1", post_id)
+            post = q.get()
+            if post and post.content:
+                logging.info(post.content)
+                self.render('editpage.html', p=post)
             else:
-                p = Post(content = content, post_id=post_id)
-                logging.info(render_text(content))
-                p_key = p.put()
-                logging.info('+++++++++++++++++++++++++++++++++++++')
-                logging.info(p_key)
-                logging.info(p_key.id())
-            self.redirect(post_id)
+                self.render('editpage.html', p=None)
+        else:
+            self.redirect('/login')
+    def post(self, post_id):
+        user = self.validate()
+        if user:
+            content = self.request.get('content')
+            q = db.GqlQuery("SELECT * FROM Post WHERE post_id = :1", post_id)
+            post = q.get()
+            if content:
+                content = render_text(content)
+                if post:
+                    post.content = content
+                else:
+                    post = Post(content = content, post_id=post_id)
+                post.put()
+                self.redirect(post_id)
+        else:
+            self.redirect('/login')
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # generate root Key, all new User entity parent key is this one
 def user_key(group='default'):
@@ -166,7 +172,9 @@ class User(db.Model):
         return u
     @classmethod
     def by_id(cls, uid):
-        return User.get_by_id(int(uid))
+        u = User.get_by_id(int(uid), parent = user_key())
+        log_out(u)
+        return u
     @classmethod
     def register(cls, name, pw, email=None):
         pw_hash = make_pw_hash(name, pw)
@@ -226,17 +234,16 @@ class Signup(BlogHandler):
 class Register(Signup):
     def done(self):
         #check if username has exist or not
-        u = User.by_name(self.username)
-        if u:
+        user = User.by_name(self.username)
+        if user:
             msg = 'That user already exists.'
             self.render('signup-form.html', error_username=msg)
         else:
-            u = User.register(self.username, self.password, self.email)
-            u.put()
+            user = User.register(self.username, self.password, self.email)
+            user.put()
+            self.set_cookie(user)
             self.redirect('/welcome')
-class Welcome(BlogHandler):
-    def get(self):
-        self.response.write('welcome')
+
 class Login(BlogHandler):
     def get(self):
         self.render('login-form.html')
@@ -260,15 +267,27 @@ class Login(BlogHandler):
         else:
             user = User.validate_name_pw(username, password)
             if user:
+                self.set_cookie(user)
                 self.redirect('/welcome')
             else:
                 error = "Username and password didn't match"
                 self.render('login-form.html', **params)
-          
+class Logout(BlogHandler):
+    def get(self):
+        self.delete_cookies()
+        self.redirect('/')
+class Welcome(BlogHandler):
+    def get(self):
+        user = self.validate()
+        if user:
+            self.render('welcome.html', username = user.name)
+        else:
+            self.redirect('/')
+
         
 class MainHandler(BlogHandler):
     def get(self):
-        self.response.write('Hello Udacity!')
+        self.render('mainpage.html')
         
         
 PAGE_RE = r'(/(?:[a-zA-Z0-9_-]+/?)*)'
@@ -276,6 +295,7 @@ app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/signup', Register),
     ('/login', Login),
+    ('/logout', Logout),
     ('/welcome', Welcome),
     ('/_edit' + PAGE_RE, EditPage),
     (PAGE_RE, WikiPage)
