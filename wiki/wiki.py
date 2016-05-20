@@ -68,7 +68,8 @@ def render_str(template, **kw):
     
 def wiki_key(name = 'default'):
     return db.Key.from_path('wikipages', name)
-
+def post_key(group = 'default'):
+    return db.Key.from_path('Post', group)
 class Post(db.Model):
     content = db.TextProperty(required = True)
     post_id = db.StringProperty(required = True) # the name of the post
@@ -115,12 +116,13 @@ class BlogHandler(webapp2.RequestHandler):
 
 class WikiPage(BlogHandler):
     def get(self, post_id):
+        user = self.validate()
         post_name = post_id.split('/')[1]
         logging.info(post_name)
         q = db.GqlQuery("SELECT * FROM Post WHERE post_id = :1", post_id)
         post = q.get()
         if post:
-            self.render('post.html', p=post)
+            self.render('post.html', p=post, user=user)
         else:
             self.redirect('/_edit' + post_id)
             
@@ -134,9 +136,9 @@ class EditPage(BlogHandler):
             post = q.get()
             if post and post.content:
                 logging.info(post.content)
-                self.render('editpage.html', p=post)
+                self.render('editpage.html', p=post, user=user)
             else:
-                self.render('editpage.html', p=None)
+                self.render('editpage.html', p=None, user=user)
         else:
             self.redirect('/login')
     def post(self, post_id):
