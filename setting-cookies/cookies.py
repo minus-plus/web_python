@@ -84,7 +84,7 @@ def vaid_pw(name, pw, hash_str):
     salt = hash_str.split(',')[0]
     return make_pw_hash(name, pw, salt) == hash_str
 def users_key(group='default'):
-    return db.Key.from_path('users', group) # 'users' means table named 'user', return parent key
+    return db.Key.from_path('User', group) # 'users' means table named 'user', return parent key
     
 class User(db.Model):
     #attributes

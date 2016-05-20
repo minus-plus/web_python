@@ -9,9 +9,11 @@
 <body>
 <div class='up'>
   <div class="edit-area">
-    <a class="login-link" href="/_edit{{p.post_id}}">edit</a>
-    |
-    <a class="login-link" href="/signup">history</a>
+    {% if p %}
+        <a class="login-link" href="_edit{{p.post_id}}">edit</a>
+        |
+        <a class="login-link" href="/signup">history</a>
+    {% endif %}
   </div>
   
   <div class="login-area">
