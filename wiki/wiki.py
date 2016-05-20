@@ -84,6 +84,30 @@ class BlogHandler(webapp2.RequestHandler):
         self.response.write(*a, **kw)
     def render(self, template, **kw):
         self.write(render_str(template, **kw))
+        
+    def set_secure_cookie(self, cookie_name, val):
+        cookie_val = ''
+        if val:
+            cookie_val = make_secure_val(val)
+        sels.response.headers.add_header('Set-Cookie',
+                                         '%s=%s' % (cookie_name, cookie_val))
+    
+    def read_cookie(self, cookie_name):
+        cookie_val = self.request.cookie.get(cookie_name)
+        return cookie_val and check_secure_val(cookie_val)
+            
+    def set_cookie(self, user):
+        self.set_secure_cookie('user_id', int(user.key().id()))
+    
+    def delete_cookies(self):
+        self.set_secure_cookie('user_id', '')
+    
+    def validate(self):
+        cookie_val = self.read_cookie('user_id')
+        if cookie_val and check_secure_val:
+            user_id = cookie_val.split('|')[0]
+            return User.by_id(int(user_id))
+    
 
 
 class WikiPage(BlogHandler):
