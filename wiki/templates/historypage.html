@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+    <table style="width:100%">
+    {% for p in posts %}
+      <tr>
+        <td>{{p.created.strftime("%b %d, %Y")}}</td>
+        <td>{{p.content | safe}}</td> 
+        <td>
+            <a class="login-link" href="/_edit{{p.post_id}}?v={{p.version}}">edit</a>
+            |
+            <a class="login-link" href="{{p.post_id}}?v={{p.version}}">view</a>
+        </td>
+      </tr>
+    {% endfor %}
+    </table>
+{% endblock %}

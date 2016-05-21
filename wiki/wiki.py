@@ -26,7 +26,7 @@ import webapp2
 import jinja2
 import logging
 
-from google.appengine.ext import db
+from google.appengine.ext import ndb
 
 # define jinja2 environment
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
@@ -66,16 +66,19 @@ def render_str(template, **kw):
     t = jinja_env.get_template(template)
     return t.render(**kw)
     
-def wiki_key(name = 'default'):
-    return db.Key.from_path('wikipages', name)
+
 def post_key(group = 'default'):
-    return db.Key.from_path('Post', group)
-class Post(db.Model):
-    content = db.TextProperty(required = True)
-    post_id = db.StringProperty(required = True) # the name of the post
-    created = db.DateTimeProperty(auto_now_add = True)
-    last_modified = db.DateTimeProperty(auto_now = True)
+    return ndb.Key('Post', group)
+class Post(ndb.Model):
+    content = ndb.TextProperty(required = True)
+    post_id = ndb.StringProperty(required = True) # the name of the post
+    created = ndb.DateTimeProperty(auto_now_add = True)
+    last_modified = ndb.DateTimeProperty(auto_now = True)
+    version = ndb.StringProperty(required = True)
     
+    @classmethod
+    def query_ancestor(cls, ancestor_key):
+        return cls.query(ancestor = ancestor_key).order(-cls.created)
 def render_text(content):
     return content.replace('\n', '')
         
@@ -98,7 +101,7 @@ class BlogHandler(webapp2.RequestHandler):
         return cookie_val and check_secure_val(cookie_val)
          
     def set_cookie(self, user):
-        self.set_secure_cookie('user_id', int(user.key().id()))
+        self.set_secure_cookie('user_id', int(user.key.id()))
     
     def delete_cookies(self):
         self.set_secure_cookie('user_id', '')
@@ -108,6 +111,13 @@ class BlogHandler(webapp2.RequestHandler):
         log_out('user_id', user_id)
         if user_id:
             return User.by_id(int(user_id))
+    def set_post_cookie(self, post_id='', version=''):
+        self.response.headers.add_header('Set-Cookie','%s=%s' %('post_id', str(post_id)))
+        self.response.headers.add_header('Set-Cookie','%s=%s' %('version', str(version)))
+    def read_post_cookie(self):
+        p = self.request.cookies.get('post_id')
+        v = self.request.cookies.get('version')
+        return p, v
     def initialize(self, *a, **kw):
         webapp2.RequestHandler.initialize(self, *a, **kw)
         uid = self.read_cookie('user_id')
@@ -116,26 +126,33 @@ class BlogHandler(webapp2.RequestHandler):
 
 class WikiPage(BlogHandler):
     def get(self, post_id):
+        version = self.request.get('v')
         user = self.validate()
         post_name = post_id.split('/')[1]
         logging.info(post_name)
-        q = db.GqlQuery("SELECT * FROM Post WHERE post_id = :1", post_id)
+        q = Post.query_ancestor(post_key()).filter(Post.post_id == post_id)
+        if version:
+            q = q.filter(Post.version == version)
+            self.set_post_cookie(post_id, version)
+        else:
+            self.set_post_cookie()
         post = q.get()
         if post:
             self.render('post.html', p=post, user=user)
         else:
             self.redirect('/_edit' + post_id)
-            
-            
+
 class EditPage(BlogHandler):
     def get(self, post_id):
         user = self.validate()
         if user:
-            self.p_id = post_id
-            q = db.GqlQuery("SELECT * FROM Post WHERE post_id = :1", post_id)
+            #version = self.request.get('v')
+            post_id_cookie, version = self.read_post_cookie()
+            q = Post.query_ancestor(post_key()).filter(Post.post_id == post_id)
+            if post_id == post_id_cookie and version:
+                q = q.filter(Post.version == version)
             post = q.get()
             if post and post.content:
-                logging.info(post.content)
                 self.render('editpage.html', p=post, user=user)
             else:
                 self.render('editpage.html', p=None, user=user)
@@ -145,32 +162,43 @@ class EditPage(BlogHandler):
         user = self.validate()
         if user:
             content = self.request.get('content')
-            q = db.GqlQuery("SELECT * FROM Post WHERE post_id = :1", post_id)
+            q = Post.query_ancestor(post_key()).filter(Post.post_id == post_id)
             post = q.get()
             if content:
                 content = render_text(content)
                 if post:
-                    post.content = content
+                    version = int(post.version) + 1
                 else:
-                    post = Post(content = content, post_id=post_id)
+                     version = 1
+                post = Post(content = content, post_id=post_id, version=str(version), parent=post_key())
                 post.put()
                 self.redirect(post_id)
         else:
             self.redirect('/login')
+
+class HistoryPage(BlogHandler):
+    def get(self, post_id):
+        user = self.validate()
+        if user:
+            self.p_id = post_id
+            q = Post.query_ancestor(post_key()).filter(Post.post_id == post_id)
+            posts = list(q)
+            log_out('posts', posts[0].content)
+            self.render('historypage.html', posts=posts, user=user)
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # generate root Key, all new User entity parent key is this one
 def user_key(group='default'):
-    return db.Key.from_path('User', group)
+    return ndb.Key('User', group)
     
-class User(db.Model):
-    name = db.StringProperty(required=True)
-    pw_hash = db.StringProperty(required=True)
-    email = db.StringProperty(required=False)
+class User(ndb.Model):
+    name = ndb.StringProperty(required=True)
+    pw_hash = ndb.StringProperty(required=True)
+    email = ndb.StringProperty(required=False)
     
     # class method, query by name
     @classmethod
     def by_name(cls, name):
-        u = User.all().filter('name =', name).get()
+        u = User.query().filter(User.name == name).get()
         return u
     @classmethod
     def by_id(cls, uid):
@@ -286,7 +314,9 @@ class Welcome(BlogHandler):
         else:
             self.redirect('/')
 
-        
+class ViewVersionPage(BlogHandler):
+    def get(self, post_id, version):
+        log_out(post_id, version)
 class MainHandler(BlogHandler):
     def get(self):
         self.render('mainpage.html')
@@ -300,6 +330,8 @@ app = webapp2.WSGIApplication([
     ('/logout', Logout),
     ('/welcome', Welcome),
     ('/_edit' + PAGE_RE, EditPage),
+    ('/_history' + PAGE_RE, HistoryPage),
+    #('/history' + PAGE_RE + '?v=([0-9]+)', ViewVersionPage),
     (PAGE_RE, WikiPage)
 
 ], debug=True)
