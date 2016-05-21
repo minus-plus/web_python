@@ -55,4 +55,13 @@ textarea{
 .login-link:hover {
     text-decoration: underline;
 }
-
+table{
+    width: 720px;
+    position: absolute;
+    font-size: 14px;
+    font-family: Arial;
+}
+td{
+    height: 50px;
+    vertical-align: top;  
+}

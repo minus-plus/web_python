@@ -29,13 +29,15 @@ import logging
 from google.appengine.ext import ndb
 
 # define jinja2 environment
+DEBUG_Control = True
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), autoescape = True)
 def log_out(*a, **kw):
-    logging.info('++++++++++++++++++++++++++++++++++++++++++++++++')
-    logging.info(a)
-    logging.info(kw)
-    logging.info('================================================')
+    if DEBUG_Control:
+        logging.info('++++++++++++++++++++++++++++++++++++++++++++++++')
+        logging.info(a)
+        logging.info(kw)
+        logging.info('================================================')
 #+++++++++++++++++++++++++++++++++++++++++++++
 # hash
 secret = 'fart'
@@ -125,11 +127,14 @@ class BlogHandler(webapp2.RequestHandler):
 
 
 class WikiPage(BlogHandler):
+    def set_url_before_login(self): 
+        self.response.headers.add_header('Set-Cookie', '%s=%s' % ('url_login', self.request.url))
     def get(self, post_id):
+        self.set_url_before_login()
         version = self.request.get('v')
         user = self.validate()
         post_name = post_id.split('/')[1]
-        logging.info(post_name)
+        log_out(post_name)
         q = Post.query_ancestor(post_key()).filter(Post.post_id == post_id)
         if version:
             q = q.filter(Post.version == version)
@@ -157,6 +162,8 @@ class EditPage(BlogHandler):
             else:
                 self.render('editpage.html', p=None, user=user)
         else:
+            self.response.headers.add_header('Set-Cookie', '%s=%s' % ('rdrted-from', 'ppoooo'))
+            log_out('url', self.request.url)
             self.redirect('/login')
     def post(self, post_id):
         user = self.validate()
@@ -276,8 +283,7 @@ class Register(Signup):
 
 class Login(BlogHandler):
     def get(self):
-        self.render('login-form.html')
-        
+        self.render('login-form.html')    
     def post(self):
         username = self.request.get('username')
         password = self.request.get('password')
@@ -298,7 +304,9 @@ class Login(BlogHandler):
             user = User.validate_name_pw(username, password)
             if user:
                 self.set_cookie(user)
-                self.redirect('/welcome')
+                post_id, version = self.read_post_cookie()
+                url = self.request.cookies.get('url_login')
+                self.redirect(str(url))
             else:
                 error = "Username and password didn't match"
                 self.render('login-form.html', **params)
